@@ -21,6 +21,10 @@
   <!--IMPORTING GOOGLE FONT PLACEHOLDER-->
   <!--<link href="https://fonts.googleapis.com/css?family=Fondamento" rel="stylesheet">-->
 
+
+  <!--RESETTING CSS-->
+   <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+
   <!-- LINKING BOOTSTRAP -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
@@ -28,14 +32,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
 
-
   <!--LINKING CSS FILES-->
-  <!-- <link rel="stylesheet" type="text/css" href="assets/css/reset.css"> -->
   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
 </head>
 
 <body>
+
   <nav>
     <div class="nav-wrapper blue darken-1">
       <a href="#" class="brand-logo">The Code Dictator</a>
@@ -53,54 +56,84 @@
     </div>
   </nav>
 
+
+
+
+
   <main>
     <div class="row">
-      
-      <form class="col s2">
+
+
+      <div id="emaildiv" class="col s2">
+
+        <h4>Email Your Code</h4>
+
         <div class="row">
           <div class="input-field col s12">
             <input id="email" type="email" class="validate">
             <label for="email" data-error="wrong" data-success="right">Email</label>
           </div>
         </div>
-      </form>
-      
-      
-      <form class="col s5">
-        
-        <div class="input-field col s12">
-          <textarea id="textarea1" class="materialize-textarea" placeholder="Textarea"></textarea>
-          <label for="textarea1"></label>
+
+        <button id="emailSend" class="btn waves-effect waves-light" type="submit" name="action">Send</button>
+
+
+      </div>
+
+
+      <div class="col s5">
+        <!--CHAT DISPLAY-->
+        <h6>Chat Display</h6>
+
+        <div id="chatDisplay" class="row">
+
         </div>
-        
+
+        <h6>Dictation</h6>  
+        <!--CHAT TEXT AND DICTATION ENTRY SECTION-->
+
+        <div class="input-field col s12 row">
+          <span id="interimTextDisplay"></span>
+          <br>
+          <textarea id="chatTextArea" class="materialize-textarea" placeholder="Textarea"></textarea>
+          <label for="chatTextArea"></label>
+        </div>
+
         <button id="submitToChat" class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
-        
-      </form>
-      
-      
+      </div>
+
+
+
+
       <form class="col s4">
-        
+        <h6>Element Generation</h6>
         <div class="input-field col s12">
           <textarea id="textarea2" class="materialize-textarea" placeholder="Textarea"></textarea>
-          <label for="textarea1"></label>
+          <label for="textarea2"></label>
         </div>
-        
+
+        <h6>Element Tree</h6>
         <div class="input-field col s12">
           <textarea id="textarea3" class="materialize-textarea" placeholder="Textarea"></textarea>
-          <label for="textarea1"></label>
+          <label for="textarea3"></label>
         </div>
-        
       </form>
+
+
     </div>
-    
+
+
+
+
     <div class="row">
-    <button id="dictationButton" class="btn waves-effect waves-light offset-s2 col s2" type="submit" name="action">Click To Speak</button>
+      <button id="dictationButton" class="btn waves-effect waves-light offset-s2 col s2" type="submit" name="action">Click To Speak</button>
     </div>
-
   </main>
-  
-  <footer class="page-footer blue darken-1">
 
+
+
+
+  <footer class="page-footer blue darken-1">
     <div class="footer-copyright">
       <div class="container">
         © 2018 Copyright Code Dictator
