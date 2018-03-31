@@ -22,31 +22,6 @@ $(document).ready(function(){
   let interim;
   let recognizing;
 
-  let recognition = new SpeechRecognition();
-  recognition.continuous = true;
-  recognition.interimResults = true;
-
-  reset();
-
-  recognition.onend = reset;
-
-  recognition.onresult = function(e) {
-    final = '';
-    interim = '';
-    for (let i = 0; i < e.results.length; ++i) {
-      if (e.results[i].isFinal) {
-        final += e.results[i][0].transcript;
-        // console.log("final transcription:", e.results[i][0].transcript);
-
-      } else {
-        interim += e.results[i][0].transcript;
-      }
-    }
-
-    chatTextArea.text(final);
-    interimTextDisplay.text(interim);
-  };
-
   function reset() {
     recognizing = false;
     dictationButton.text('Click to Speak');
@@ -57,8 +32,33 @@ $(document).ready(function(){
       recognition.stop();
       reset();
     } else {
+      recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+
+      reset();
+
       recognition.start();
       recognizing = true;
+      recognition.onend = reset;
+
+      recognition.onresult = function(e) {
+        final = '';
+        interim = '';
+        for (let i = 0; i < e.results.length; ++i) {
+          if (e.results[i].isFinal) {
+            final += e.results[i][0].transcript;
+            console.log("final transcription:", e.results[i][0].transcript);
+
+          } else {
+            interim += e.results[i][0].transcript;
+          }
+        }
+
+        chatTextArea.text(final);
+        interimTextDisplay.text(interim);
+      };
+
       dictationButton.text('Click to Stop');
       chatTextArea.text('');
       interimTextDisplay.text('');
@@ -69,11 +69,6 @@ $(document).ready(function(){
     sentenceArray = string.split(' ');
   }
 
-  function emptyChatEntry(){
-    chatTextArea.val('');
-    reset();
-  }
-
   dictationButton.on('click', function(){
     toggleStartStop();
   });
@@ -81,10 +76,12 @@ $(document).ready(function(){
   submitToChat.on('click', function() {
     event.preventDefault();
     submittedChat = chatTextArea.val().trim();
-    emptyChatEntry();
+    chatTextArea.empty();
     console.log(submittedChat);
     splitIntoArray(submittedChat);
     console.log(sentenceArray);
+    checkTextForElement();
+    recognition = "";
   });
 
   function tagConstructor (elementTag, elementID, elementClass) {
@@ -92,51 +89,52 @@ $(document).ready(function(){
   }
 
   // ==============================NEEDS TO BE WORKED INTO ABOVE=========
-  if (sentenceArray.includes('division') && speechResult.includes('ID') && speechResult.includes('class')) {
-    let idIndex = sentenceArray.indexOf('ID');
-    if (ofEqualsArray.includes(sentenceArray[idIndex + 1]) === true) {
-      idText = sentenceArray[idIndex + 2];
+
+  function checkTextForElement(){
+    if (sentenceArray.includes('division') && sentenceArray.includes('ID') && sentenceArray.includes('class')) {
+      let idIndex = sentenceArray.indexOf('ID');
+      if (ofEqualsArray.includes(sentenceArray[idIndex + 1]) === true) {
+        idText = sentenceArray[idIndex + 2];
+      }
+      else {
+        idText = sentenceArray[idIndex + 1];
+      }
+      let classIndex = sentenceArray.indexOf('class');
+      if (ofEqualsArray.includes(sentenceArray[classIndex + 1]) === true) {
+        classText = sentenceArray[classIndex + 2];
+      }
+      else {
+        classText = sentenceArray[classIndex + 1];
+      }
+      console.log('<div id="' + idText + '" class="' + classText +'"></div>')
+    }
+
+    else if (sentenceArray.includes('division') && sentenceArray.includes('class')) {
+      let classIndex = sentenceArray.indexOf('class');
+      if (ofEqualsArray.includes(sentenceArray[classIndex + 1]) === true) {
+        classText = sentenceArray[classIndex + 2];
+      }
+      else {
+        classText = sentenceArray[classIndex + 1];
+      }
+      console.log('<div class="' + classText +'"></div>');
+    }
+
+    else if (sentenceArray.includes('division') && sentenceArray.includes('ID')) {
+      let idIndex = sentenceArray.indexOf('ID');
+      if (ofEqualsArray.includes(sentenceArray[idIndex + 1]) === true) {
+        idText = sentenceArray[idIndex + 2];
+      }
+      else {
+        idText = sentenceArray[idIndex + 1];
+      }
+      console.log('<div id="' + idText + '"></div>');
+    }
+    else if (sentenceArray.includes('division')) {
+      console.log('<div></div>');
     }
     else {
-      idText = sentenceArray[idIndex + 1];
+      console.log('I did not understand')
     }
-    let classIndex = sentenceArray.indexOf('class');
-    if (ofEqualsArray.includes(sentenceArray[classIndex + 1]) === true) {
-      classText = sentenceArray[classIndex + 2];
-    }
-    else {
-      classText = sentenceArray[classIndex + 1];
-    }
-    dictationResultOutput.text('<div id="' + idText + '" class="' + classText +'"></div>').css('backgroundColor', 'lime');
   }
-
-  else if (sentenceArray.includes('division') && speechResult.includes('class')) {
-    let classIndex = sentenceArray.indexOf('class');
-    if (ofEqualsArray.includes(sentenceArray[classIndex + 1]) === true) {
-      classText = sentenceArray[classIndex + 2];
-    }
-    else {
-      classText = sentenceArray[classIndex + 1];
-    }
-    dictationResultOutput.text('<div class="' + classText +'"></div>').css('backgroundColor', 'lime');
-  }
-
-  else if (sentenceArray.includes('division') && speechResult.includes('ID')) {
-    let idIndex = sentenceArray.indexOf('ID');
-    if (ofEqualsArray.includes(sentenceArray[idIndex + 1]) === true) {
-      idText = sentenceArray[idIndex + 2];
-    }
-    else {
-      idText = sentenceArray[idIndex + 1];
-    }
-    dictationResultOutput.text('<div id="' + idText + '"></div>').css('backgroundColor', 'lime');
-  }
-  else if (sentenceArray.includes('division')) {
-    dictationResultOutput.text('<div></div>').css('backgroundColor', 'lime');
-  }
-  else {
-    dictationResultOutput.text('That didn\'t sound right.').css('backgroundColor', 'red');
-  }
-
-
 });
