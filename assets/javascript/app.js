@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  console.log("initiated");
 
   var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
   var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
@@ -7,8 +8,8 @@ $(document).ready(function(){
   let dictationResultOutput = $('#result');
   let convertedOutput = $('#output');
   let submitToChat = $('#submitToChat');
-  let chatTextArea = $('#finalDictationText');
-  let interimTextDisplay = $('#interimDictation');
+  let chatTextArea = $('#chatTextArea');
+  let interimTextDisplay = $('#interimTextDisplay');
   let dictationButton = $('#dictationButton');
 
   let sentenceArray = [];
@@ -35,10 +36,13 @@ $(document).ready(function(){
     for (let i = 0; i < e.results.length; ++i) {
       if (e.results[i].isFinal) {
         final += e.results[i][0].transcript;
+        // console.log("final transcription:", e.results[i][0].transcript);
+
       } else {
         interim += e.results[i][0].transcript;
       }
     }
+
     chatTextArea.text(final);
     interimTextDisplay.text(interim);
   };
