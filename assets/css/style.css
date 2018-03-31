@@ -17,8 +17,15 @@ main {
   flex: 1 0 auto;
 }
 
+
+#chatDisplay{
+  height: 400px;
+  background: rgb(238, 238, 238);
+  margin: 15px 11px;
+}
+
 #textarea1{
-  height: 600px;
+  height: 162px;
   background: rgb(238, 238, 238);
 }
 

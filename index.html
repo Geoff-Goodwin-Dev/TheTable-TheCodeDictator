@@ -36,6 +36,7 @@
 </head>
 
 <body>
+
   <nav>
     <div class="nav-wrapper blue darken-1">
       <a href="#" class="brand-logo">The Code Dictator</a>
@@ -53,33 +54,50 @@
     </div>
   </nav>
 
+
+
+
+
   <main>
     <div class="row">
       
-      <form class="col s2">
+
+      <div id="emaildiv" class="col s2">
+
+        <h4>Email Your Code</h4>
+
         <div class="row">
           <div class="input-field col s12">
             <input id="email" type="email" class="validate">
             <label for="email" data-error="wrong" data-success="right">Email</label>
           </div>
         </div>
-      </form>
+
+        <button id="emailSend" class="btn waves-effect waves-light" type="submit" name="action">Send</button>
+
+
+      </div>
       
-      
+
+
       <form class="col s5">
-        
-        <div class="input-field col s12">
+
+        <div id="chatDisplay" class="row">
+
+        </div>
+
+        <div class="input-field col s12 row">
           <textarea id="textarea1" class="materialize-textarea" placeholder="Textarea"></textarea>
           <label for="textarea1"></label>
         </div>
         
         <button id="submitToChat" class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
-        
       </form>
       
-      
+
+
+
       <form class="col s4">
-        
         <div class="input-field col s12">
           <textarea id="textarea2" class="materialize-textarea" placeholder="Textarea"></textarea>
           <label for="textarea1"></label>
@@ -89,17 +107,23 @@
           <textarea id="textarea3" class="materialize-textarea" placeholder="Textarea"></textarea>
           <label for="textarea1"></label>
         </div>
-        
       </form>
+
+
     </div>
     
+
+
+
     <div class="row">
     <button id="dictationButton" class="btn waves-effect waves-light offset-s2 col s2" type="submit" name="action">Click To Speak</button>
     </div>
   </main>
   
-  <footer class="page-footer blue darken-1">
 
+
+
+  <footer class="page-footer blue darken-1">
     <div class="footer-copyright">
       <div class="container">
         © 2018 Copyright Code Dictator
@@ -107,7 +131,6 @@
       </div>
     </div>
   </footer>
-
 </body>
 
 </html>
