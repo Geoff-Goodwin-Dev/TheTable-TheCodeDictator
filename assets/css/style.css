@@ -17,6 +17,9 @@ main {
   flex: 1 0 auto;
 }
 
+h6{
+  border-bottom: 1px solid rgb(240, 240, 240);
+}
 
 #chatDisplay{
   height: 400px;
