@@ -77,9 +77,11 @@ $(document).ready(function(){
     event.preventDefault();
     submittedChat = chatTextArea.val().trim();
     chatTextArea.empty();
+    chatTextArea.val('');
     console.log(submittedChat);
     splitIntoArray(submittedChat);
     console.log(sentenceArray);
+
     checkTextForElement();
     recognition = "";
   });
