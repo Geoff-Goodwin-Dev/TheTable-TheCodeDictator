@@ -14,6 +14,8 @@ $(document).ready(function(){
 
   let sentenceArray = [];
   let ofEqualsArray = ['of', 'equals', 'is'];
+  let versionsOfId = ['id', 'ID', 'Id', 'I.D.', 'i.d.', 'identifier'];
+  let versionsOfClass =  ['class', 'Class'];
   let elementMatchCount = 0;
   let idText;
   let classText;
@@ -28,21 +30,21 @@ $(document).ready(function(){
     {
       position: 0,
       name: 'div',
-      openTag: '<div>',
+      openTag: '<div',
       closingTag: '</div>',
       aliases: ['division', 'divider', 'div']
     },
     {
       position: 1,
       name: 'p',
-      openTag: '<p>',
+      openTag: '<p',
       closingTag: '</p>',
       aliases: ['paragraph', 'par', 'p']
     },
     {
       position: 2,
       name: 'h1',
-      openTag: '<h1>',
+      openTag: '<h1',
       closingTag: '</h1>',
       aliases: ['heading1', 'heading 1', 'headingone', 'heading one', 'h1']
     }
@@ -100,8 +102,7 @@ $(document).ready(function(){
     toggleStartStop();
   });
 
-
-  // SUBMIT BUTTON CLICK FUNCTION
+  // ============= Submit Button Click Code ============= \\
   submitToChat.on('click', function() {
     event.preventDefault();
     submittedChat = chatTextArea.val().trim();
@@ -112,30 +113,11 @@ $(document).ready(function(){
     splitIntoArray(submittedChat);
 
     spellCheck();
-
     console.log(sentenceArray);
-
-    // let result = checkSubmittedTextForElement();
-    // // console.log("final result:", result);
-    // elementMatchCount = 0; // resets element match count for future checks
-    //
-    // if (result === "No matching elements found") {
-    //   console.log("I did not find any matching elements in your statement");
-    // }
-    // else if (result === "More than one element match found") {
-    //   console.log("I can only create one element at a time.  Which would element do you want to create first?");
-    // }
-    // else {
-    //   let selectedElement = elementsObjectsArray[result].name;
-    //   let selectedElementOpenTag = elementsObjectsArray[result].openTag;
-    //   let selectedElementClosingTag = elementsObjectsArray[result].closingTag;
-    //   console.log(selectedElement, selectedElementOpenTag, selectedElementClosingTag);
-    //   // checkTextForElement()
-    // }
 
     recognition = "";
   });
-
+  // ============= END OF: Submit Button Click Code ============= \\
 
   // ============= Spelling Validation Code ============= \\
   function spellCheck () {
@@ -167,7 +149,7 @@ $(document).ready(function(){
         recognition = "";
       }
 
-      // Checks to see if the spell-check corrected statement contains a div element
+      // Checks to see if the spell-check corrected statement contains an HTML element
       let result = checkSubmittedTextForElement();
       // console.log("final result:", result);
       elementMatchCount = 0; // resets element match count for future checks
@@ -182,13 +164,21 @@ $(document).ready(function(){
         let selectedElement = elementsObjectsArray[result].name;
         let selectedElementOpenTag = elementsObjectsArray[result].openTag;
         let selectedElementClosingTag = elementsObjectsArray[result].closingTag;
-        console.log(selectedElement, selectedElementOpenTag, selectedElementClosingTag);
+        // console.log(selectedElement, selectedElementOpenTag, selectedElementClosingTag);
+
+        // Checks to see if the spell-checked statement which contains a single HTML also has an ID
+        let idResult = checkSubmittedTextForId();
+
+        let classResult = checkSubmittedTextForClass();
+
+        let tagRender = selectedElementOpenTag + idResult + classResult + '>' + selectedElementClosingTag;
+        console.log(tagRender);
       }
     });
   }
   // ============= END OF: Spelling Validation Code ============= \\
 
-
+  // ============= Presence of HTML Element Validation Code ============= \\
   function checkSubmittedTextForElement() {
     sentenceArray.forEach(function(word) {
       elementsObjectsArray.forEach(function(element) {
@@ -217,15 +207,74 @@ $(document).ready(function(){
         return "More than one element match found";
     }
   }
+  // ============= END OF: Presence of HTML Element Validation Code ============= \\
 
-  // function tagConstructor (elementTag, elementID, elementClass) {
-  //   // NEEDS DEFINITITION
-  // }
+  // ============= Presence of ID attribute Validation Code ============= \\
+  function checkSubmittedTextForId() {
+    let idFound = false;
+    let idResponse = '';
+      sentenceArray.forEach(function(word) {
+      versionsOfId.forEach(function (wordId) {
+        if (word === wordId) {
+          idFound = true;
+          let idIndex = sentenceArray.indexOf(wordId);
+          if (ofEqualsArray.includes(sentenceArray[idIndex + 1]) === true) {
+            idText = sentenceArray[idIndex + 2];
+          }
+          else {
+            idText = sentenceArray[idIndex + 1];
+          }
+        }
+      })
+    });
+    if (idFound === true) {
+      console.log('ID text:', idText);
+      idResponse = ' id="' + idText + '"';
+    }
+    else {
+      console.log('No ID attribute found');
+    }
+    return idResponse
+  }
+  // ============= END OF: Presence of ID attribute Validation Code ============= \\
+
+  // ============= Presence of Class attribute Validation Code ============= \\
+  function checkSubmittedTextForClass() {
+    let classFound = false;
+    let classResponse = '';
+    let classesArray = [];
+    let classWordInstanceIndexArray = [];
+    sentenceArray.forEach(function(word) {
+      versionsOfClass.forEach(function (wordClass) {
+        if (word === wordClass) {
+          classFound = true;
+          let classIndex = sentenceArray.indexOf(word);
+          if (ofEqualsArray.includes(sentenceArray[classIndex + 1]) === true) {
+            classText = sentenceArray[classIndex + 2];
+          }
+          else {
+            classText = sentenceArray[classIndex + 1];
+          }
+          classesArray.push(classText)
+        }
+      })
+    });
+    if (classFound === true) {
+      console.log('Class text:', classesArray);
+      classResponse = ' class="' + classesArray.join(' ') + '"';
+    }
+    else {
+      console.log('No class attribute found');
+    }
+    return classResponse
+  }
+  // ============= END OF: Presence of Class attribute Validation Code ============= \\
 
   // ==============================NEEDS TO BE WORKED INTO ABOVE=========
 
   function checkTextForElement(){
     if (sentenceArray.includes('division') && sentenceArray.includes('ID') && sentenceArray.includes('class')) {
+      // ID
       let idIndex = sentenceArray.indexOf('ID');
       if (ofEqualsArray.includes(sentenceArray[idIndex + 1]) === true) {
         idText = sentenceArray[idIndex + 2];
@@ -233,6 +282,8 @@ $(document).ready(function(){
       else {
         idText = sentenceArray[idIndex + 1];
       }
+
+      // CLASS
       let classIndex = sentenceArray.indexOf('class');
       if (ofEqualsArray.includes(sentenceArray[classIndex + 1]) === true) {
         classText = sentenceArray[classIndex + 2];
