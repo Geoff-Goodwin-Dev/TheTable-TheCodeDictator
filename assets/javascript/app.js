@@ -11,6 +11,8 @@ $(document).ready(function(){
   let chatTextArea = $('#chatTextArea');
   let interimTextDisplay = $('#interimTextDisplay');
   let dictationButton = $('#dictationButton');
+  let chatDisplay = $('#chatDisplay');
+  let elementGeneration = $('#elementGeneration');
 
   let sentenceArray = [];
   let ofEqualsArray = ['of', 'equals', 'is'];
@@ -110,6 +112,7 @@ $(document).ready(function(){
     chatTextArea.val('');
 
     console.log(submittedChat);
+    chatDisplay.append("<br>" + getTimestamp() + " User: " + submittedChat);
     splitIntoArray(submittedChat);
 
     spellCheck();
@@ -143,6 +146,7 @@ $(document).ready(function(){
         }
         console.log("After fixing mistakes: " + sentenceArray);
         console.log("I believe you meant... " + sentenceArray.join(" "));
+        chatDisplay.append("<br>" + getTimestamp() + " Computer: I believe you meant... \"" + sentenceArray.join(" ") + "\"");
         recognition = "";
       } else {
         console.log("Spelling validation passed!");
@@ -156,15 +160,20 @@ $(document).ready(function(){
 
       if (result === "No matching elements found") {
         console.log("I did not find any matching elements in your statement");
+        chatDisplay.append("<br>" + getTimestamp() + " Computer: I did not find any matching elements in your statement");
       }
       else if (result === "More than one element match found") {
         console.log("I can only create one element at a time.  Which would element do you want to create first?");
+        chatDisplay.append("<br>" + getTimestamp() + " Computer: I can only create one element at a time.  Which element do you want to create first?");
       }
       else {
         let selectedElement = elementsObjectsArray[result].name;
         let selectedElementOpenTag = elementsObjectsArray[result].openTag;
         let selectedElementClosingTag = elementsObjectsArray[result].closingTag;
-        // console.log(selectedElement, selectedElementOpenTag, selectedElementClosingTag);
+
+        console.log(selectedElement, selectedElementOpenTag, selectedElementClosingTag);
+        chatDisplay.append("<br>" + getTimestamp() + " Computer: Sure thing, coming right up!");
+        elementGeneration.append("<br>" + selectedElement, selectedElementOpenTag, selectedElementClosingTag);
 
         // Checks to see if the spell-checked statement which contains a single HTML also has an ID
         let idResult = checkSubmittedTextForId();
@@ -173,12 +182,17 @@ $(document).ready(function(){
 
         let tagRender = selectedElementOpenTag + idResult + classResult + '>' + selectedElementClosingTag;
         console.log(tagRender);
+
       }
     });
   }
   // ============= END OF: Spelling Validation Code ============= \\
 
   // ============= Presence of HTML Element Validation Code ============= \\
+  function getTimestamp() {
+    return moment().format('h:mm:ss a');
+  }
+
   function checkSubmittedTextForElement() {
     sentenceArray.forEach(function(word) {
       elementsObjectsArray.forEach(function(element) {
@@ -197,7 +211,7 @@ $(document).ready(function(){
       case 0:
         return "No matching elements found";
 
-      // ONY ONE MATCH FOUND
+      // ONLY ONE MATCH FOUND
       case 1:
         // console.log("element referenced:", elementsObjectsArray[elementObjectIndex].name);
         return elementObjectIndex;
@@ -272,54 +286,59 @@ $(document).ready(function(){
 
   // ==============================NEEDS TO BE WORKED INTO ABOVE=========
 
-  function checkTextForElement(){
-    if (sentenceArray.includes('division') && sentenceArray.includes('ID') && sentenceArray.includes('class')) {
-      // ID
-      let idIndex = sentenceArray.indexOf('ID');
-      if (ofEqualsArray.includes(sentenceArray[idIndex + 1]) === true) {
-        idText = sentenceArray[idIndex + 2];
-      }
-      else {
-        idText = sentenceArray[idIndex + 1];
-      }
-
-      // CLASS
-      let classIndex = sentenceArray.indexOf('class');
-      if (ofEqualsArray.includes(sentenceArray[classIndex + 1]) === true) {
-        classText = sentenceArray[classIndex + 2];
-      }
-      else {
-        classText = sentenceArray[classIndex + 1];
-      }
-      console.log('<div id="' + idText + '" class="' + classText +'"></div>')
-    }
-
-    else if (sentenceArray.includes('division') && sentenceArray.includes('class')) {
-      let classIndex = sentenceArray.indexOf('class');
-      if (ofEqualsArray.includes(sentenceArray[classIndex + 1]) === true) {
-        classText = sentenceArray[classIndex + 2];
-      }
-      else {
-        classText = sentenceArray[classIndex + 1];
-      }
-      console.log('<div class="' + classText +'"></div>');
-    }
-
-    else if (sentenceArray.includes('division') && sentenceArray.includes('ID')) {
-      let idIndex = sentenceArray.indexOf('ID');
-      if (ofEqualsArray.includes(sentenceArray[idIndex + 1]) === true) {
-        idText = sentenceArray[idIndex + 2];
-      }
-      else {
-        idText = sentenceArray[idIndex + 1];
-      }
-      console.log('<div id="' + idText + '"></div>');
-    }
-    else if (sentenceArray.includes('division')) {
-      console.log('<div></div>');
-    }
-    else {
-      console.log('I did not understand')
-    }
-  }
+  // function checkTextForElement(){
+  //   if (sentenceArray.includes('division') && sentenceArray.includes('ID') && sentenceArray.includes('class')) {
+  //     // ID
+  //     let idIndex = sentenceArray.indexOf('ID');
+  //     if (ofEqualsArray.includes(sentenceArray[idIndex + 1]) === true) {
+  //       idText = sentenceArray[idIndex + 2];
+  //     }
+  //     else {
+  //       idText = sentenceArray[idIndex + 1];
+  //     }
+  //
+  //     // CLASS
+  //     let classIndex = sentenceArray.indexOf('class');
+  //     if (ofEqualsArray.includes(sentenceArray[classIndex + 1]) === true) {
+  //       classText = sentenceArray[classIndex + 2];
+  //     }
+  //     else {
+  //       classText = sentenceArray[classIndex + 1];
+  //     }
+  //     console.log('<div id="' + idText + '" class="' + classText +'"></div>');
+  //     chatDisplay.append('<br><div></div>test: ' + idText);
+  //   }
+  //
+  //   else if (sentenceArray.includes('division') && sentenceArray.includes('class')) {
+  //     let classIndex = sentenceArray.indexOf('class');
+  //     if (ofEqualsArray.includes(sentenceArray[classIndex + 1]) === true) {
+  //       classText = sentenceArray[classIndex + 2];
+  //     }
+  //     else {
+  //       classText = sentenceArray[classIndex + 1];
+  //     }
+  //     console.log('<div class="' + classText +'"></div>');
+  //     chatDisplay.append('<div class="' + classText +'"></div>');
+  //   }
+  //
+  //   else if (sentenceArray.includes('division') && sentenceArray.includes('ID')) {
+  //     let idIndex = sentenceArray.indexOf('ID');
+  //     if (ofEqualsArray.includes(sentenceArray[idIndex + 1]) === true) {
+  //       idText = sentenceArray[idIndex + 2];
+  //     }
+  //     else {
+  //       idText = sentenceArray[idIndex + 1];
+  //     }
+  //     console.log('<div id="' + idText + '"></div>');
+		// 	chatDisplay.append('<div id="' + idText + '"></div>');
+  //   }
+  //   else if (sentenceArray.includes('division')) {
+  //     console.log('<div></div>');
+  //     chatDisplay.append('<div></div>');
+  //   }
+  //   else {
+  //     console.log('I did not understand');
+  //     chatDisplay.append('<br>I did not understand');
+  //   }
+  // }
 });
