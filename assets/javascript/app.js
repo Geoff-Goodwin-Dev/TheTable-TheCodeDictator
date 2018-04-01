@@ -93,6 +93,7 @@ $(document).ready(function(){
 
   function splitIntoArray(string) {
     sentenceArray = string.split(' ');
+    return sentenceArray;
   }
 
   dictationButton.on('click', function(){
@@ -109,28 +110,84 @@ $(document).ready(function(){
 
     console.log(submittedChat);
     splitIntoArray(submittedChat);
+
+    spellCheck();
+
     console.log(sentenceArray);
 
-    let result = checkSubmittedTextForElement();
-    // console.log("final result:", result);
-    elementMatchCount = 0; // resets element match count for future checks
-
-    if (result === "No matching elements found") {
-      console.log("I did not find any matching elements in your statement");
-    }
-    else if (result === "More than one element match found") {
-      console.log("I can only create one element at a time.  Which would element do you want to create first?");
-    }
-    else {
-      let selectedElement = elementsObjectsArray[result].name;
-      let selectedElementOpenTag = elementsObjectsArray[result].openTag;
-      let selectedElementClosingTag = elementsObjectsArray[result].closingTag;
-      console.log(selectedElement, selectedElementOpenTag, selectedElementClosingTag);
-      // checkTextForElement()
-    }
+    // let result = checkSubmittedTextForElement();
+    // // console.log("final result:", result);
+    // elementMatchCount = 0; // resets element match count for future checks
+    //
+    // if (result === "No matching elements found") {
+    //   console.log("I did not find any matching elements in your statement");
+    // }
+    // else if (result === "More than one element match found") {
+    //   console.log("I can only create one element at a time.  Which would element do you want to create first?");
+    // }
+    // else {
+    //   let selectedElement = elementsObjectsArray[result].name;
+    //   let selectedElementOpenTag = elementsObjectsArray[result].openTag;
+    //   let selectedElementClosingTag = elementsObjectsArray[result].closingTag;
+    //   console.log(selectedElement, selectedElementOpenTag, selectedElementClosingTag);
+    //   // checkTextForElement()
+    // }
 
     recognition = "";
   });
+
+
+  // ============= Spelling Validation Code ============= \\
+  function spellCheck () {
+    var queryURL = "https://api.cognitive.microsoft.com/bing/v7.0/spellcheck?text=" + submittedChat;
+
+    // Performing our AJAX GET request
+    $.ajax({
+      url: queryURL,
+      method: "GET",
+      headers: {
+        "Ocp-Apim-Subscription-Key": "3606c69fe0fd4e23ad73b2955bf6fcf7",
+        "Accept": "application/json",
+      }
+    })
+    // After the data comes back from the API ...
+    .then(function (response) {
+      console.log(response);
+      // IF errors were found...
+      if (response.flaggedTokens.length > 0) {
+        console.log("Before fixing mistakes (if any): " + sentenceArray);
+        for (var i = 0; i < response.flaggedTokens.length; i++) {
+          sentenceArray[sentenceArray.indexOf(response.flaggedTokens[i].token)] = response.flaggedTokens[i].suggestions[0].suggestion;
+        }
+        console.log("After fixing mistakes: " + sentenceArray);
+        console.log("I believe you meant... " + sentenceArray.join(" "));
+        recognition = "";
+      } else {
+        console.log("Spelling validation passed!");
+        recognition = "";
+      }
+
+      // Checks to see if the spell-check corrected statement contains a div element
+      let result = checkSubmittedTextForElement();
+      // console.log("final result:", result);
+      elementMatchCount = 0; // resets element match count for future checks
+
+      if (result === "No matching elements found") {
+        console.log("I did not find any matching elements in your statement");
+      }
+      else if (result === "More than one element match found") {
+        console.log("I can only create one element at a time.  Which would element do you want to create first?");
+      }
+      else {
+        let selectedElement = elementsObjectsArray[result].name;
+        let selectedElementOpenTag = elementsObjectsArray[result].openTag;
+        let selectedElementClosingTag = elementsObjectsArray[result].closingTag;
+        console.log(selectedElement, selectedElementOpenTag, selectedElementClosingTag);
+      }
+    });
+  }
+  // ============= END OF: Spelling Validation Code ============= \\
+
 
   function checkSubmittedTextForElement() {
     sentenceArray.forEach(function(word) {
@@ -161,9 +218,9 @@ $(document).ready(function(){
     }
   }
 
-  function tagConstructor (elementTag, elementID, elementClass) {
-    // NEEDS DEFINITITION
-  }
+  // function tagConstructor (elementTag, elementID, elementClass) {
+  //   // NEEDS DEFINITITION
+  // }
 
   // ==============================NEEDS TO BE WORKED INTO ABOVE=========
 
