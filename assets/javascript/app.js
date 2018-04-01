@@ -67,6 +67,7 @@ $(document).ready(function(){
 
   function splitIntoArray(string) {
     sentenceArray = string.split(' ');
+    return sentenceArray;
   }
 
   dictationButton.on('click', function(){
@@ -79,9 +80,39 @@ $(document).ready(function(){
     chatTextArea.empty();
     console.log(submittedChat);
     splitIntoArray(submittedChat);
-    console.log(sentenceArray);
-    checkTextForElement();
-    recognition = "";
+
+    // ============= Spelling Validation Code ============= \\
+		var queryURL = "https://api.cognitive.microsoft.com/bing/v7.0/spellcheck?text=" + submittedChat;
+
+		// Performing our AJAX GET request
+		$.ajax({
+			url: queryURL,
+			method: "GET",
+			headers: {
+				"Ocp-Apim-Subscription-Key": "3606c69fe0fd4e23ad73b2955bf6fcf7",
+				"Accept": "application/json",
+			}
+		})
+    // After the data comes back from the API ...
+        .then(function (response) {
+				  console.log(response);
+          // IF errors were found...
+					if (response.flaggedTokens.length > 0) {
+						console.log("Before fixing mistakes (if any): " + sentenceArray);
+						for (var i = 0; i < response.flaggedTokens.length; i++) {
+							sentenceArray[sentenceArray.indexOf(response.flaggedTokens[i].token)] = response.flaggedTokens[i].suggestions[0].suggestion;
+						}
+						console.log("After fixing mistakes: " + sentenceArray);
+						console.log("I believe you meant... " + sentenceArray.join(" "));
+						checkTextForElement();
+						recognition = "";
+					} else {
+					  console.log("Spelling validation passed!");
+						checkTextForElement();
+						recognition = "";
+          }
+        });
+		// ============= END OF: Spelling Validation Code ============= \\
   });
 
   function tagConstructor (elementTag, elementID, elementClass) {
