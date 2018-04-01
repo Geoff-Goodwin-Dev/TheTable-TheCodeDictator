@@ -14,13 +14,39 @@ $(document).ready(function(){
 
   let sentenceArray = [];
   let ofEqualsArray = ['of', 'equals', 'is'];
+  let elementMatchCount = 0;
   let idText;
   let classText;
   let submittedChat;
+  let elementObjectIndex;
 
   let final;
   let interim;
   let recognizing;
+
+  const elementsObjectsArray = [
+    {
+      position: 0,
+      name: 'div',
+      openTag: '<div>',
+      closingTag: '</div>',
+      aliases: ['division', 'divider', 'div']
+    },
+    {
+      position: 1,
+      name: 'p',
+      openTag: '<p>',
+      closingTag: '</p>',
+      aliases: ['paragraph', 'par', 'p']
+    },
+    {
+      position: 2,
+      name: 'h1',
+      openTag: '<h1>',
+      closingTag: '</h1>',
+      aliases: ['heading1', 'heading 1', 'headingone', 'heading one', 'h1']
+    }
+  ];
 
   function reset() {
     recognizing = false;
@@ -74,50 +100,127 @@ $(document).ready(function(){
     toggleStartStop();
   });
 
+
+  // SUBMIT BUTTON CLICK FUNCTION
   submitToChat.on('click', function() {
     event.preventDefault();
     submittedChat = chatTextArea.val().trim();
     chatTextArea.empty();
+    chatTextArea.val('');
+
     console.log(submittedChat);
     splitIntoArray(submittedChat);
 
-    // ============= Spelling Validation Code ============= \\
-		var queryURL = "https://api.cognitive.microsoft.com/bing/v7.0/spellcheck?text=" + submittedChat;
+    spellCheck();
 
-		// Performing our AJAX GET request
-		$.ajax({
-			url: queryURL,
-			method: "GET",
-			headers: {
-				"Ocp-Apim-Subscription-Key": "3606c69fe0fd4e23ad73b2955bf6fcf7",
-				"Accept": "application/json",
-			}
-		})
-    // After the data comes back from the API ...
-        .then(function (response) {
-				  console.log(response);
-          // IF errors were found...
-					if (response.flaggedTokens.length > 0) {
-						console.log("Before fixing mistakes (if any): " + sentenceArray);
-						for (var i = 0; i < response.flaggedTokens.length; i++) {
-							sentenceArray[sentenceArray.indexOf(response.flaggedTokens[i].token)] = response.flaggedTokens[i].suggestions[0].suggestion;
-						}
-						console.log("After fixing mistakes: " + sentenceArray);
-						console.log("I believe you meant... " + sentenceArray.join(" "));
-						checkTextForElement();
-						recognition = "";
-					} else {
-					  console.log("Spelling validation passed!");
-						checkTextForElement();
-						recognition = "";
-          }
-        });
-		// ============= END OF: Spelling Validation Code ============= \\
+    console.log(sentenceArray);
+
+    // let result = checkSubmittedTextForElement();
+    // // console.log("final result:", result);
+    // elementMatchCount = 0; // resets element match count for future checks
+    //
+    // if (result === "No matching elements found") {
+    //   console.log("I did not find any matching elements in your statement");
+    // }
+    // else if (result === "More than one element match found") {
+    //   console.log("I can only create one element at a time.  Which would element do you want to create first?");
+    // }
+    // else {
+    //   let selectedElement = elementsObjectsArray[result].name;
+    //   let selectedElementOpenTag = elementsObjectsArray[result].openTag;
+    //   let selectedElementClosingTag = elementsObjectsArray[result].closingTag;
+    //   console.log(selectedElement, selectedElementOpenTag, selectedElementClosingTag);
+    //   // checkTextForElement()
+    // }
+
+    recognition = "";
   });
 
-  function tagConstructor (elementTag, elementID, elementClass) {
-    // NEEDS DEFINITITION
+
+  // ============= Spelling Validation Code ============= \\
+  function spellCheck () {
+    var queryURL = "https://api.cognitive.microsoft.com/bing/v7.0/spellcheck?text=" + submittedChat;
+
+    // Performing our AJAX GET request
+    $.ajax({
+      url: queryURL,
+      method: "GET",
+      headers: {
+        "Ocp-Apim-Subscription-Key": "3606c69fe0fd4e23ad73b2955bf6fcf7",
+        "Accept": "application/json",
+      }
+    })
+    // After the data comes back from the API ...
+    .then(function (response) {
+      console.log(response);
+      // IF errors were found...
+      if (response.flaggedTokens.length > 0) {
+        console.log("Before fixing mistakes (if any): " + sentenceArray);
+        for (var i = 0; i < response.flaggedTokens.length; i++) {
+          sentenceArray[sentenceArray.indexOf(response.flaggedTokens[i].token)] = response.flaggedTokens[i].suggestions[0].suggestion;
+        }
+        console.log("After fixing mistakes: " + sentenceArray);
+        console.log("I believe you meant... " + sentenceArray.join(" "));
+        recognition = "";
+      } else {
+        console.log("Spelling validation passed!");
+        recognition = "";
+      }
+
+      // Checks to see if the spell-check corrected statement contains a div element
+      let result = checkSubmittedTextForElement();
+      // console.log("final result:", result);
+      elementMatchCount = 0; // resets element match count for future checks
+
+      if (result === "No matching elements found") {
+        console.log("I did not find any matching elements in your statement");
+      }
+      else if (result === "More than one element match found") {
+        console.log("I can only create one element at a time.  Which would element do you want to create first?");
+      }
+      else {
+        let selectedElement = elementsObjectsArray[result].name;
+        let selectedElementOpenTag = elementsObjectsArray[result].openTag;
+        let selectedElementClosingTag = elementsObjectsArray[result].closingTag;
+        console.log(selectedElement, selectedElementOpenTag, selectedElementClosingTag);
+      }
+    });
   }
+  // ============= END OF: Spelling Validation Code ============= \\
+
+
+  function checkSubmittedTextForElement() {
+    sentenceArray.forEach(function(word) {
+      elementsObjectsArray.forEach(function(element) {
+        let aliasesArray = element.aliases;
+        aliasesArray.forEach(function(alias) {
+          if (alias === word) {
+            elementMatchCount++;
+            elementObjectIndex = element.position;
+            // console.log("match found: " + alias + " in: " + element.name + " index: " + elementObjectIndex)
+          }
+        });
+      });
+    });
+    switch (elementMatchCount) {
+      // NO MATCHES FOUND
+      case 0:
+        return "No matching elements found";
+
+      // ONY ONE MATCH FOUND
+      case 1:
+        // console.log("element referenced:", elementsObjectsArray[elementObjectIndex].name);
+        return elementObjectIndex;
+
+      // MORE THAN ONE ELEMENT MATCH IS FOUND
+      default:
+        return "More than one element match found";
+    }
+  }
+
+  // function tagConstructor (elementTag, elementID, elementClass) {
+  //   // NEEDS DEFINITITION
+  // }
 
   // ==============================NEEDS TO BE WORKED INTO ABOVE=========
 
