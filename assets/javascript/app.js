@@ -11,6 +11,8 @@ $(document).ready(function(){
   let chatTextArea = $('#chatTextArea');
   let interimTextDisplay = $('#interimTextDisplay');
   let dictationButton = $('#dictationButton');
+  let chatDisplay = $('#chatDisplay');
+  let elementGeneration = $('#elementGeneration');
 
   let sentenceArray = [];
   let ofEqualsArray = ['of', 'equals', 'is'];
@@ -109,6 +111,7 @@ $(document).ready(function(){
     chatTextArea.val('');
 
     console.log(submittedChat);
+    chatDisplay.append("<br>" + getTimestamp() + " User: " + submittedChat);
     splitIntoArray(submittedChat);
 
     spellCheck();
@@ -161,6 +164,7 @@ $(document).ready(function(){
         }
         console.log("After fixing mistakes: " + sentenceArray);
         console.log("I believe you meant... " + sentenceArray.join(" "));
+        chatDisplay.append("<br>" + getTimestamp() + " Computer: I believe you meant... \"" + sentenceArray.join(" ") + "\"");
         recognition = "";
       } else {
         console.log("Spelling validation passed!");
@@ -174,20 +178,27 @@ $(document).ready(function(){
 
       if (result === "No matching elements found") {
         console.log("I did not find any matching elements in your statement");
+        chatDisplay.append("<br>" + getTimestamp() + " Computer: I did not find any matching elements in your statement");
       }
       else if (result === "More than one element match found") {
         console.log("I can only create one element at a time.  Which would element do you want to create first?");
+        chatDisplay.append("<br>" + getTimestamp() + " Computer: I can only create one element at a time.  Which element do you want to create first?");
       }
       else {
         let selectedElement = elementsObjectsArray[result].name;
         let selectedElementOpenTag = elementsObjectsArray[result].openTag;
         let selectedElementClosingTag = elementsObjectsArray[result].closingTag;
         console.log(selectedElement, selectedElementOpenTag, selectedElementClosingTag);
+        chatDisplay.append("<br>" + getTimestamp() + " Computer: Sure thing, coming right up!");
+        elementGeneration.append("<br>" + selectedElement, selectedElementOpenTag, selectedElementClosingTag);
       }
     });
   }
   // ============= END OF: Spelling Validation Code ============= \\
 
+  function getTimestamp() {
+    return moment().format('h:mm:ss a');
+  }
 
   function checkSubmittedTextForElement() {
     sentenceArray.forEach(function(word) {
@@ -207,7 +218,7 @@ $(document).ready(function(){
       case 0:
         return "No matching elements found";
 
-      // ONY ONE MATCH FOUND
+      // ONLY ONE MATCH FOUND
       case 1:
         // console.log("element referenced:", elementsObjectsArray[elementObjectIndex].name);
         return elementObjectIndex;
@@ -240,7 +251,8 @@ $(document).ready(function(){
       else {
         classText = sentenceArray[classIndex + 1];
       }
-      console.log('<div id="' + idText + '" class="' + classText +'"></div>')
+      console.log('<div id="' + idText + '" class="' + classText +'"></div>');
+      chatDisplay.append('<br><div></div>test: ' + idText);
     }
 
     else if (sentenceArray.includes('division') && sentenceArray.includes('class')) {
@@ -252,6 +264,7 @@ $(document).ready(function(){
         classText = sentenceArray[classIndex + 1];
       }
       console.log('<div class="' + classText +'"></div>');
+      chatDisplay.append('<div class="' + classText +'"></div>');
     }
 
     else if (sentenceArray.includes('division') && sentenceArray.includes('ID')) {
@@ -263,12 +276,15 @@ $(document).ready(function(){
         idText = sentenceArray[idIndex + 1];
       }
       console.log('<div id="' + idText + '"></div>');
+			chatDisplay.append('<div id="' + idText + '"></div>');
     }
     else if (sentenceArray.includes('division')) {
       console.log('<div></div>');
+      chatDisplay.append('<div></div>');
     }
     else {
-      console.log('I did not understand')
+      console.log('I did not understand');
+      chatDisplay.append('<br>I did not understand');
     }
   }
 });
