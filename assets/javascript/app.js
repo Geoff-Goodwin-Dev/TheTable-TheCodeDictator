@@ -11,6 +11,7 @@ $(document).ready(function(){
   let chatTextArea = $('#chatTextArea');
   let interimTextDisplay = $('#interimTextDisplay');
   let dictationButton = $('#dictationButton');
+  let chatDisplay = $('#chatDisplay');
 
   let sentenceArray = [];
   let ofEqualsArray = ['of', 'equals', 'is'];
@@ -137,7 +138,8 @@ $(document).ready(function(){
       else {
         classText = sentenceArray[classIndex + 1];
       }
-      console.log('<div id="' + idText + '" class="' + classText +'"></div>')
+      console.log('<div id="' + idText + '" class="' + classText +'"></div>');
+      chatDisplay.append('<br><div></div>test: ' + idText);
     }
 
     else if (sentenceArray.includes('division') && sentenceArray.includes('class')) {
@@ -149,6 +151,7 @@ $(document).ready(function(){
         classText = sentenceArray[classIndex + 1];
       }
       console.log('<div class="' + classText +'"></div>');
+      chatDisplay.append('<div class="' + classText +'"></div>');
     }
 
     else if (sentenceArray.includes('division') && sentenceArray.includes('ID')) {
@@ -160,12 +163,15 @@ $(document).ready(function(){
         idText = sentenceArray[idIndex + 1];
       }
       console.log('<div id="' + idText + '"></div>');
+			chatDisplay.append('<div id="' + idText + '"></div>');
     }
     else if (sentenceArray.includes('division')) {
       console.log('<div></div>');
+      chatDisplay.append('<div></div>');
     }
     else {
-      console.log('I did not understand')
+      console.log('I did not understand');
+      chatDisplay.append('<br>I did not understand');
     }
   }
 });
