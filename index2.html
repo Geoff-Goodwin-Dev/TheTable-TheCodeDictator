@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <!--PROJECT TITLE-->
+  <title>The Code Dictator</title>
+
+  <!--LINKING FIREBASE TO PROJECT-->
+  <!--<script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>-->
+
+  <!--LINKING JQUERY-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <!--LINKING JAVASCRIPT FILE-->
+  <script src="assets/javascript/app.js"></script>
+
+  <!--IMPORTING GOOGLE FONT PLACEHOLDER-->
+  <!--<link href="https://fonts.googleapis.com/css?family=Fondamento" rel="stylesheet">-->
+
+
+  <!--RESETTING CSS-->
+   <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+
+  <!-- LINKING BOOTSTRAP -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+  <!-- LINKING MATERIALIZE -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+  <!--LINKING CSS FILES-->
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+</head>
+
+<body>
+
+  <nav>
+    <div class="nav-wrapper blue darken-1">
+      <a href="#" class="brand-logo">The Code Dictator</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li>
+          <a href="sass.html">Get Coding!</a>
+        </li>
+        <li>
+          <a href="badges.html">Command Documentation</a>
+        </li>
+        <li>
+          <a href="collapsible.html">Help</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+
+
+
+  <main>
+    <div class="row">
+
+
+      <div id="emaildiv" class="col s2">
+
+        <h4>Email Your Code</h4>
+
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="email" type="email" class="validate">
+            <label for="email" data-error="wrong" data-success="right">Email</label>
+          </div>
+        </div>
+
+        <button id="emailSend" class="btn waves-effect waves-light" type="submit" name="action">Send</button>
+
+
+      </div>
+
+
+      <div class="col s5">
+        <!--CHAT DISPLAY-->
+        <h6>Chat Display</h6>
+
+        <div id="chatDisplay" class="row">
+
+        </div>
+
+        <h6>Dictation</h6>  
+        <!--CHAT TEXT AND DICTATION ENTRY SECTION-->
+
+        <div class="input-field col s12 row">
+          <span id="interimTextDisplay"></span>
+          <br>
+          <textarea id="chatTextArea" class="materialize-textarea" placeholder="Textarea"></textarea>
+          <label for="chatTextArea"></label>
+        </div>
+
+        <button id="submitToChat" class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+      </div>
+
+
+
+
+      <form class="col s4">
+        <h6>Element Generation</h6>
+        <div class="input-field col s12">
+          <textarea id="textarea2" class="materialize-textarea" placeholder="Textarea"></textarea>
+          <label for="textarea2"></label>
+        </div>
+
+        <h6>Element Tree</h6>
+        <div class="input-field col s12">
+          <textarea id="textarea3" class="materialize-textarea" placeholder="Textarea"></textarea>
+          <label for="textarea3"></label>
+        </div>
+      </form>
+
+
+    </div>
+
+
+
+
+    <div class="row">
+      <button id="dictationButton" class="btn waves-effect waves-light offset-s2 col s2" type="submit" name="action">Click To Speak</button>
+    </div>
+  </main>
+
+
+
+
+  <footer class="page-footer blue darken-1">
+    <div class="footer-copyright">
+      <div class="container">
+        © 2018 Copyright Code Dictator
+        <a class="grey-text text-lighten-4 right" href="#!">Pay-Pal Link Here</a>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>
