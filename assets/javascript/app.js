@@ -51,17 +51,19 @@ $(document).ready(function(){
   ];
 
   let myCodeMirror = CodeMirror(document.getElementById('elementTree'), {
-    value: "<!DOCTYPE html>\n" +
-    "<html lang=\"en\">\n" +
-    "<head>\n" +
-    "  <meta charset=\"UTF-8\">\n" +
-    "  <title>Title</title>\n" +
-    "</head>\n" +
-    "<body>\n" +
-    "\n" +
-    "</body>\n" +
-    "</html>\n",
-    mode:  "htmlmixed"
+    value: '<!DOCTYPE html>\n' +
+    '<html lang="en">\n' +
+    '<head>\n' +
+    '  <meta charset="UTF-8">\n' +
+    '  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">\n' +
+    '  <meta http-equiv="X-UA-Compatible" content="ie=edge">\n' +
+    '  <title>Title</title>\n' +
+    '</head>\n' +
+    '<body>\n' +
+    '\n' +
+    '</body>\n' +
+    '</html>\n',
+    mode:  'htmlmixed'
   });
 
   function reset() {
@@ -91,7 +93,8 @@ $(document).ready(function(){
           if (e.results[i].isFinal) {
             final += e.results[i][0].transcript;
             console.log('final transcription:', e.results[i][0].transcript);
-
+            chatTextArea.focus();
+            toggleStartStop();
           } else {
             interim += e.results[i][0].transcript;
           }

@@ -26,18 +26,20 @@ h6{
   background: rgb(238, 238, 238);
   margin: 15px 11px;
   overflow-y: scroll;
-  padding: 0 3%;
+  padding: 8px;
 }
 
 #chatTextArea{
   height: 120px;
   background: rgb(238, 238, 238);
+  padding: 8px;
 }
 
 #elementGeneration{
   height: 150px;
   background: rgb(238, 238, 238);
   white-space: pre-wrap;
+  padding: 8px;
 }
 
 #elementTree{
