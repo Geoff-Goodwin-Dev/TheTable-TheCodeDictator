@@ -105,20 +105,18 @@
         <div class="input-field col s12 row">
           <span id="interimTextDisplay"></span>
           <br>
-          <textarea id="chatTextArea" class="materialize-textarea" placeholder="Textarea"></textarea>
+          <div id="chatTextArea" class="materialize-textarea" contenteditable="true"></div>
           <label for="chatTextArea"></label>
         </div>
 
         <button id="submitToChat" class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+        <button id="dictationButton" class="btn waves-effect waves-light" type="submit" name="action">Click To Speak</button>
       </div>
-
-
-
 
       <form class="col s4">
         <h6>Element Generation</h6>
         <div class="input-field col s12">
-          <div id="elementGeneration"></div>
+          <div id="elementGeneration" contenteditable="true"></div>
         </div>
 
         <h6>Element Tree</h6>
@@ -134,7 +132,6 @@
 
 
     <div class="row">
-      <button id="dictationButton" class="btn waves-effect waves-light offset-s2 col s2" type="submit" name="action">Click To Speak</button>
     </div>
   </main>
 

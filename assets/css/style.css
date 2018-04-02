@@ -22,23 +22,42 @@ h6{
 }
 
 #chatDisplay{
-  height: 400px;
+  height: 300px;
   background: rgb(238, 238, 238);
   margin: 15px 11px;
+  overflow-y: scroll;
+  padding: 8px;
 }
 
 #chatTextArea{
-  height: 162px;
+  height: 120px;
   background: rgb(238, 238, 238);
+  padding: 8px;
 }
 
 #elementGeneration{
-  height: 250px;
+  height: 150px;
   background: rgb(238, 238, 238);
   white-space: pre-wrap;
+  padding: 8px;
 }
 
 #elementTree{
   /*height: 250px;*/
   /*background: rgb(238, 238, 238);*/
+}
+
+.timestamp {
+  font-style: normal;
+  color: #888888;
+}
+
+.userChat {
+  font-weight: bold;
+  color: green;
+}
+
+.computerChat {
+  font-weight: bold;
+  color: purple;
 }
