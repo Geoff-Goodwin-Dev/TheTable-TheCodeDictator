@@ -1,12 +1,10 @@
 $(document).ready(function(){
-  console.log("initiated");
+  console.log('Initiated!');
 
   var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
   var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
   var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
-  let dictationResultOutput = $('#result');
-  let convertedOutput = $('#output');
   let submitToChat = $('#submitToChat');
   let chatTextArea = $('#chatTextArea');
   let interimTextDisplay = $('#interimTextDisplay');
@@ -92,7 +90,7 @@ $(document).ready(function(){
         for (let i = 0; i < e.results.length; ++i) {
           if (e.results[i].isFinal) {
             final += e.results[i][0].transcript;
-            console.log("final transcription:", e.results[i][0].transcript);
+            console.log('final transcription:', e.results[i][0].transcript);
 
           } else {
             interim += e.results[i][0].transcript;
@@ -109,32 +107,66 @@ $(document).ready(function(){
     }
   }
 
+  // takes an array and splits along space characters
   function splitIntoArray(string) {
     sentenceArray = string.split(' ');
     return sentenceArray;
   }
 
+  // grabs current timestamp for use in the chat window display
+  function getTimestamp() {
+    return moment().format('hh:mm:ss a');
+  }
+
+  function createChatLineItem(who, what) {
+    let itemWho = $('<span>');
+    if (who === 'You') {
+      itemWho.addClass('userChat');
+    }
+    else {
+      itemWho.addClass('computerChat');
+    }
+    itemWho.text(who);
+    let itemWhen = $('<span>');
+    itemWhen.addClass('timestamp').text(' (' + getTimestamp() + '): ');
+    chatDisplay.append(itemWho, itemWhen, what, '<br>')
+      .animate({
+      scrollTop: chatDisplay[0].scrollHeight - chatDisplay[0].clientHeight
+    }, 300);
+  }
+
+  function chatSubmitHandler() {
+    submittedChat = chatTextArea.text().trim();
+    chatTextArea.empty();
+    console.log(submittedChat);
+    createChatLineItem('You', submittedChat);
+    splitIntoArray(submittedChat);
+    spellCheck();
+    console.log(sentenceArray);
+    recognition = '';
+  }
+
+  // ============= Utility Event Handlers ============= \\
+  // click handler to start or stop voice-to-text dictation
   dictationButton.on('click', function(){
     toggleStartStop();
   });
 
-  // ============= Submit Button Click Code ============= \\
+  // enter button handler when chat box is in focus
+  chatTextArea.keypress(function(event) {
+    if (event.which === 13) {
+      document.execCommand('insertHTML', false, '<div></div>');
+      chatSubmitHandler();
+      return false;
+    }
+  });
+
+  // submit button handler
   submitToChat.on('click', function() {
     event.preventDefault();
-    submittedChat = chatTextArea.val().trim();
-    chatTextArea.empty();
-    chatTextArea.val('');
-
-    console.log(submittedChat);
-    chatDisplay.append("<br>" + getTimestamp() + " User: " + submittedChat);
-    splitIntoArray(submittedChat);
-
-    spellCheck();
-    console.log(sentenceArray);
-
-    recognition = "";
+    chatSubmitHandler();
   });
-  // ============= END OF: Submit Button Click Code ============= \\
+  // ============= END OF: Utility Event Handlers ============= \\
 
   // ============= Spelling Validation Code ============= \\
   function spellCheck () {
@@ -154,31 +186,29 @@ $(document).ready(function(){
       console.log(response);
       // IF errors were found...
       if (response.flaggedTokens.length > 0) {
-        console.log("Before fixing mistakes (if any): " + sentenceArray);
-        for (var i = 0; i < response.flaggedTokens.length; i++) {
+        console.log('Before fixing mistakes (if any):', sentenceArray);
+        for (let i = 0; i < response.flaggedTokens.length; i++) {
           sentenceArray[sentenceArray.indexOf(response.flaggedTokens[i].token)] = response.flaggedTokens[i].suggestions[0].suggestion;
         }
-        console.log("After fixing mistakes: " + sentenceArray);
-        console.log("I believe you meant... " + sentenceArray.join(" "));
-        chatDisplay.append("<br>" + getTimestamp() + " Computer: I believe you meant... \"" + sentenceArray.join(" ") + "\"");
-        recognition = "";
+        console.log('After fixing mistakes:', sentenceArray);
+        // console.log('I believe you meant... ', sentenceArray.join(' '));
+        let message = 'I believe you meant... "' + sentenceArray.join(' ') + '"';
+        createChatLineItem('Computer', message);
+        recognition = '';
       } else {
-        console.log("Spelling validation passed!");
-        recognition = "";
+        console.log('Spelling validation passed!');
+        recognition = '';
       }
 
       // Checks to see if the spell-check corrected statement contains an HTML element
       let result = checkSubmittedTextForElement();
-      // console.log("final result:", result);
       elementMatchCount = 0; // resets element match count for future checks
 
-      if (result === "No matching elements found") {
-        console.log("I did not find any matching elements in your statement");
-        chatDisplay.append("<br>" + getTimestamp() + " Computer: I did not find any matching elements in your statement");
+      if (result === 'No matching elements found') {
+        createChatLineItem('Computer', 'I could not find any matching elements in your statement');
       }
-      else if (result === "More than one element match found") {
-        console.log("I can only create one element at a time.  Which would element do you want to create first?");
-        chatDisplay.append("<br>" + getTimestamp() + " Computer: I can only create one element at a time.  Which element do you want to create first?");
+      else if (result === 'More than one element match found') {
+        createChatLineItem('Computer', 'I can only create one element at a time.  Which element do you want to create first?');
       }
       else {
         let selectedElement = elementsObjectsArray[result].name;
@@ -194,20 +224,16 @@ $(document).ready(function(){
 
         let tagRender = selectedElementOpenTag + idResult + classResult + '>' + selectedElementClosingTag;
 
-        chatDisplay.append("<br>" + getTimestamp() + " Computer: Sure thing, coming right up!");
+        createChatLineItem('Computer', 'If I understand correctly, you are looking for an element tag creation.  Coming right up!');
         console.log(tagRender);
         let currentElements = elementGeneration.text();
-        elementGeneration.text(currentElements + "\n" + tagRender);
+        elementGeneration.text(currentElements + tagRender + '\n');
       }
     });
   }
   // ============= END OF: Spelling Validation Code ============= \\
 
   // ============= Presence of HTML Element Validation Code ============= \\
-  function getTimestamp() {
-    return moment().format('h:mm:ss a');
-  }
-
   function checkSubmittedTextForElement() {
     sentenceArray.forEach(function(word) {
       elementsObjectsArray.forEach(function(element) {
@@ -301,62 +327,4 @@ $(document).ready(function(){
     return classResponse
   }
   // ============= END OF: Presence of Class attribute Validation Code ============= \\
-
-  // ==============================NEEDS TO BE WORKED INTO ABOVE=========
-
-  // function checkTextForElement(){
-  //   if (sentenceArray.includes('division') && sentenceArray.includes('ID') && sentenceArray.includes('class')) {
-  //     // ID
-  //     let idIndex = sentenceArray.indexOf('ID');
-  //     if (ofEqualsArray.includes(sentenceArray[idIndex + 1]) === true) {
-  //       idText = sentenceArray[idIndex + 2];
-  //     }
-  //     else {
-  //       idText = sentenceArray[idIndex + 1];
-  //     }
-  //
-  //     // CLASS
-  //     let classIndex = sentenceArray.indexOf('class');
-  //     if (ofEqualsArray.includes(sentenceArray[classIndex + 1]) === true) {
-  //       classText = sentenceArray[classIndex + 2];
-  //     }
-  //     else {
-  //       classText = sentenceArray[classIndex + 1];
-  //     }
-  //     console.log('<div id="' + idText + '" class="' + classText +'"></div>');
-  //     chatDisplay.append('<br><div></div>test: ' + idText);
-  //   }
-  //
-  //   else if (sentenceArray.includes('division') && sentenceArray.includes('class')) {
-  //     let classIndex = sentenceArray.indexOf('class');
-  //     if (ofEqualsArray.includes(sentenceArray[classIndex + 1]) === true) {
-  //       classText = sentenceArray[classIndex + 2];
-  //     }
-  //     else {
-  //       classText = sentenceArray[classIndex + 1];
-  //     }
-  //     console.log('<div class="' + classText +'"></div>');
-  //     chatDisplay.append('<div class="' + classText +'"></div>');
-  //   }
-  //
-  //   else if (sentenceArray.includes('division') && sentenceArray.includes('ID')) {
-  //     let idIndex = sentenceArray.indexOf('ID');
-  //     if (ofEqualsArray.includes(sentenceArray[idIndex + 1]) === true) {
-  //       idText = sentenceArray[idIndex + 2];
-  //     }
-  //     else {
-  //       idText = sentenceArray[idIndex + 1];
-  //     }
-  //     console.log('<div id="' + idText + '"></div>');
-		// 	chatDisplay.append('<div id="' + idText + '"></div>');
-  //   }
-  //   else if (sentenceArray.includes('division')) {
-  //     console.log('<div></div>');
-  //     chatDisplay.append('<div></div>');
-  //   }
-  //   else {
-  //     console.log('I did not understand');
-  //     chatDisplay.append('<br>I did not understand');
-  //   }
-  // }
 });
