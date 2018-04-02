@@ -37,6 +37,14 @@
   <!--LINKING CSS FILES-->
   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
+  <!--ALL REFERENCES FOR CREATING CODE EDITOR FOR ELEMENT TREE-->
+  <script src="assets/lib/codemirror.js"></script>
+  <link rel="stylesheet" href="assets/lib/codemirror.css">
+  <script src="assets/mode/javascript.js"></script>
+  <script src="assets/mode/css.js"></script>
+  <script src="assets/mode/htmlmixed.js"></script>
+  <script src="assets/mode/xml.js"></script>
+
 </head>
 
 <body>
@@ -115,8 +123,7 @@
 
         <h6>Element Tree</h6>
         <div class="input-field col s12">
-          <textarea id="textarea3" class="materialize-textarea" placeholder="Textarea"></textarea>
-          <label for="textarea3"></label>
+          <div id="elementTree"></div>
         </div>
       </form>
 
