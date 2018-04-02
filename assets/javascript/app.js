@@ -13,7 +13,6 @@ $(document).ready(function(){
   let dictationButton = $('#dictationButton');
   let chatDisplay = $('#chatDisplay');
   let elementGeneration = $('#elementGeneration');
-  // let elementGeneration = document.querySelector('#elementGeneration');
 
   let sentenceArray = [];
   let ofEqualsArray = ['of', 'equals', 'is'];
@@ -52,6 +51,20 @@ $(document).ready(function(){
       aliases: ['heading1', 'heading 1', 'headingone', 'heading one', 'h1']
     }
   ];
+
+  let myCodeMirror = CodeMirror(document.getElementById('elementTree'), {
+    value: "<!DOCTYPE html>\n" +
+    "<html lang=\"en\">\n" +
+    "<head>\n" +
+    "  <meta charset=\"UTF-8\">\n" +
+    "  <title>Title</title>\n" +
+    "</head>\n" +
+    "<body>\n" +
+    "\n" +
+    "</body>\n" +
+    "</html>\n",
+    mode:  "htmlmixed"
+  });
 
   function reset() {
     recognizing = false;
