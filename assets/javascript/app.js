@@ -13,6 +13,7 @@ $(document).ready(function(){
   let dictationButton = $('#dictationButton');
   let chatDisplay = $('#chatDisplay');
   let elementGeneration = $('#elementGeneration');
+  // let elementGeneration = document.querySelector('#elementGeneration');
 
   let sentenceArray = [];
   let ofEqualsArray = ['of', 'equals', 'is'];
@@ -172,8 +173,6 @@ $(document).ready(function(){
         let selectedElementClosingTag = elementsObjectsArray[result].closingTag;
 
         console.log(selectedElement, selectedElementOpenTag, selectedElementClosingTag);
-        chatDisplay.append("<br>" + getTimestamp() + " Computer: Sure thing, coming right up!");
-        elementGeneration.append("<br>" + selectedElement, selectedElementOpenTag, selectedElementClosingTag);
 
         // Checks to see if the spell-checked statement which contains a single HTML also has an ID
         let idResult = checkSubmittedTextForId();
@@ -181,8 +180,11 @@ $(document).ready(function(){
         let classResult = checkSubmittedTextForClass();
 
         let tagRender = selectedElementOpenTag + idResult + classResult + '>' + selectedElementClosingTag;
-        console.log(tagRender);
 
+        chatDisplay.append("<br>" + getTimestamp() + " Computer: Sure thing, coming right up!");
+        console.log(tagRender);
+        let currentElements = elementGeneration.text();
+        elementGeneration.text(currentElements + "\n" + tagRender);
       }
     });
   }
@@ -258,20 +260,23 @@ $(document).ready(function(){
     let classResponse = '';
     let classesArray = [];
     let classWordInstanceIndexArray = [];
-    sentenceArray.forEach(function(word) {
+    let sentenceArrayCopy = sentenceArray.slice();
+    sentenceArrayCopy.forEach(function(word) {
       versionsOfClass.forEach(function (wordClass) {
         if (word === wordClass) {
           classFound = true;
-          let classIndex = sentenceArray.indexOf(word);
+          let classIndex = sentenceArrayCopy.indexOf(word);
           if (ofEqualsArray.includes(sentenceArray[classIndex + 1]) === true) {
-            classText = sentenceArray[classIndex + 2];
+            classText = sentenceArrayCopy[classIndex + 2];
+            sentenceArrayCopy.splice(classIndex, 1);
           }
           else {
-            classText = sentenceArray[classIndex + 1];
+            classText = sentenceArrayCopy[classIndex + 1];
+            sentenceArrayCopy.splice(classIndex, 1);
           }
           classesArray.push(classText)
         }
-      })
+      });
     });
     if (classFound === true) {
       console.log('Class text:', classesArray);
