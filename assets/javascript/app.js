@@ -357,7 +357,6 @@ $('#emailSend').on('click', function(){
   sendEmail();
 });
 
-var elementTreeString = myCodeMirror.options.value.toString();
  console.log(myCodeMirror.options.value);
  console.log(elementTreeString);
 });
