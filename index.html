@@ -37,7 +37,6 @@
   <!--LINKING CSS FILES-->
   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
-
   <!-- LINKING EMAIL LIBRARY -->
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script type="text/javascript">
@@ -88,7 +87,7 @@
         <div class="row s12 m12">
           <div class="input-field col s12">
             <input id="email" type="email" class="validate" placeholder="Email">
-            <label for="email" data-error="wrong" data-success="right"></label></label>
+            <label for="email" data-error="wrong" data-success="right"></label>
           </div>
         </div>
 
@@ -118,19 +117,22 @@
         <!--CHAT TEXT AND DICTATION ENTRY SECTION-->
 
         <div id="speech" class="input-field col s12 row">
-          <span id="interimTextDisplay"></span>
-          <br>
-          <div id="chatTextArea" class="materialize-textarea" contenteditable="true"></div>
-          <label for="chatTextArea"></label>
+          <p id="interimTextDisplayLabel">Transcript: <span id="interimTextDisplay"></span></p>
+          <div id="chatTextEntryAndMic">
+
+            <div id="chatTextArea" class="materialize-textarea" contenteditable="true"></div>
+            <div id="dictationButton">
+              <img src="assets/images/micOff.png" id="microphoneIcon">
+            </div>
+          </div>
+          <!--<label for="chatTextArea"></label>-->
         </div>
 
         <button id="submitToChat" class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
-        <div id="dictationButton">
-          <img src="assets/images/micOff.png" id="microphoneIcon">
-        </div>
+
       </div>
 
-      <form class="col s12 m12 l4">
+      <div class="col s12 m12 l4">
         <h5>Element Generation</h5>
         <div class="input-field col s12">
           <div id="elementGeneration" contenteditable="true"></div>
@@ -140,7 +142,7 @@
         <div class="input-field col s12">
           <div id="elementTree"></div>
         </div>
-      </form>
+      </div>
 
 
     </div>

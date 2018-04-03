@@ -11,6 +11,7 @@ $(document).ready(function(){
   let dictationButton = $('#dictationButton');
   let chatDisplay = $('#chatDisplay');
   let elementGeneration = $('#elementGeneration');
+  let transcriptDisplay = $('#interimTextDisplayLabel');
 
   let sentenceArray = [];
   let ofEqualsArray = ['of', 'equals', 'is'];
@@ -66,6 +67,8 @@ $(document).ready(function(){
     mode:  'htmlmixed'
   });
 
+  transcriptDisplay.toggle();
+
   function reset() {
     recognizing = false;
     $('#microphoneIcon').attr("src", "assets/images/micOff.png");
@@ -96,6 +99,7 @@ $(document).ready(function(){
             console.log('final transcription:', e.results[i][0].transcript);
             chatTextArea.focus();
             toggleStartStop();
+            transcriptDisplay.toggle();
           } else {
             interim += e.results[i][0].transcript;
           }
@@ -154,6 +158,7 @@ $(document).ready(function(){
   // ============= Utility Event Handlers ============= \\
   // click handler to start or stop voice-to-text dictation
   dictationButton.on('click', function(){
+    transcriptDisplay.toggle();
     toggleStartStop();
   });
 
