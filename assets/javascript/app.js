@@ -46,7 +46,7 @@ $(document).ready(function(){
       name: 'h1',
       openTag: '<h1',
       closingTag: '</h1>',
-      aliases: ['heading1', 'heading 1', 'headingone', 'heading one', 'h1']
+      aliases: ['heading1', 'heading 1', 'headingone', 'heading one', 'h1', 'H1', 'header1', 'header 1', 'headerone', 'header one']
     }
   ];
 
