@@ -38,12 +38,13 @@ h5{
 } */
 
 #chatTextArea{
+  float: left;
   height: 120px;
   background: rgb(238, 238, 238);
   padding: 8px;
+  width: 80%;
+  overflow-y: scroll;
 }
-
-
 
 #elementGeneration{
   height: 150px;
@@ -74,5 +75,27 @@ h5{
 }
 
 #microphoneIcon {
-  width: 120px;
+  float: left;
+  width: 20%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+}
+
+#chatTextEntryAndMic {
+  width: 100%;
+  overflow: hidden;
+  background: rgb(238, 238, 238);
+  position: relative;
+}
+
+#interimTextDisplayLabel {
+  /*display: none;*/
+  background: rgb(238, 238, 238);
+  padding: 4px;
+  margin: 0;
+  color: #aaaaaa;
+  font-style: italic;
+  border-bottom: 1px solid #aaaaaa;
 }
