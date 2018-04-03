@@ -17,23 +17,33 @@ main {
   flex: 1 0 auto;
 }
 
-h6{
-  border-bottom: 1px solid rgb(240, 240, 240);
+h5{
+  border-bottom: 1px solid rgb(221, 221, 221);
 }
 
 #chatDisplay{
+  height: 300px;
+  background: rgb(255, 255, 255);
+  margin: 15px 11px;
+  overflow-y: scroll;
+  box-shadow:rgb(179, 179, 179) 1px 1px 7px;
+  padding: 8px;
+}
+/* #chatDisplay{
   height: 300px;
   background: rgb(238, 238, 238);
   margin: 15px 11px;
   overflow-y: scroll;
   padding: 8px;
-}
+} */
 
 #chatTextArea{
   height: 120px;
   background: rgb(238, 238, 238);
   padding: 8px;
 }
+
+
 
 #elementGeneration{
   height: 150px;
@@ -42,9 +52,15 @@ h6{
   padding: 8px;
 }
 
+#textarea3{
+  height: 250px;
+  background: rgb(238, 238, 238);
+  padding-bottom: 37px;
+}
+
 #elementTree{
-  /*height: 250px;*/
-  /*background: rgb(238, 238, 238);*/
+  height: 250px;
+  background: rgb(238, 238, 238);
 }
 
 .timestamp {
