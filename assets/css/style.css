@@ -40,6 +40,7 @@ h6{
   background: rgb(238, 238, 238);
   white-space: pre-wrap;
   padding: 8px;
+  overflow-y: scroll;
 }
 
 #elementTree{
