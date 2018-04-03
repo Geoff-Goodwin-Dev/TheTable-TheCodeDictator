@@ -1,12 +1,10 @@
 $(document).ready(function(){
-  console.log("initiated");
+  console.log('Initiated!');
 
   var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
   var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
   var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
-  let dictationResultOutput = $('#result');
-  let convertedOutput = $('#output');
   let submitToChat = $('#submitToChat');
   let chatTextArea = $('#chatTextArea');
   let interimTextDisplay = $('#interimTextDisplay');
@@ -48,19 +46,36 @@ $(document).ready(function(){
       name: 'h1',
       openTag: '<h1',
       closingTag: '</h1>',
-      aliases: ['heading1', 'heading 1', 'headingone', 'heading one', 'h1']
+      aliases: ['heading1', 'heading 1', 'headingone', 'heading one', 'h1', 'H1', 'header1', 'header 1', 'headerone', 'header one']
     }
   ];
 
+  let myCodeMirror = CodeMirror(document.getElementById('elementTree'), {
+    value: '<!DOCTYPE html>\n' +
+    '<html lang="en">\n' +
+    '<head>\n' +
+    '  <meta charset="UTF-8">\n' +
+    '  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">\n' +
+    '  <meta http-equiv="X-UA-Compatible" content="ie=edge">\n' +
+    '  <title>Title</title>\n' +
+    '</head>\n' +
+    '<body>\n' +
+    '\n' +
+    '</body>\n' +
+    '</html>\n',
+    mode:  'htmlmixed'
+  });
+
   function reset() {
     recognizing = false;
-    dictationButton.text('Click to Speak');
+    $('#microphoneIcon').attr("src", "assets/images/micOff.png");
+    // dictationButton.text('Click to Speak');
   }
 
   function toggleStartStop() {
     if (recognizing) {
       recognition.stop();
-      reset();
+      recognizing = false;
     } else {
       recognition = new SpeechRecognition();
       recognition.continuous = true;
@@ -78,8 +93,9 @@ $(document).ready(function(){
         for (let i = 0; i < e.results.length; ++i) {
           if (e.results[i].isFinal) {
             final += e.results[i][0].transcript;
-            console.log("final transcription:", e.results[i][0].transcript);
-
+            console.log('final transcription:', e.results[i][0].transcript);
+            chatTextArea.focus();
+            toggleStartStop();
           } else {
             interim += e.results[i][0].transcript;
           }
@@ -89,38 +105,73 @@ $(document).ready(function(){
         interimTextDisplay.text(interim);
       };
 
-      dictationButton.text('Click to Stop');
+      $('#microphoneIcon').attr("src", "assets/images/micOn.png");
+      // dictationButton.text('Click to Stop');
       chatTextArea.text('');
       interimTextDisplay.text('');
     }
   }
 
+  // takes an array and splits along space characters
   function splitIntoArray(string) {
     sentenceArray = string.split(' ');
     return sentenceArray;
   }
 
+  // grabs current timestamp for use in the chat window display
+  function getTimestamp() {
+    return moment().format('hh:mm:ss a');
+  }
+
+  function createChatLineItem(who, what) {
+    let itemWho = $('<span>');
+    if (who === 'You') {
+      itemWho.addClass('userChat');
+    }
+    else {
+      itemWho.addClass('computerChat');
+    }
+    itemWho.text(who);
+    let itemWhen = $('<span>');
+    itemWhen.addClass('timestamp').text(' (' + getTimestamp() + '): ');
+    chatDisplay.append(itemWho, itemWhen, what, '<br>')
+      .animate({
+      scrollTop: chatDisplay[0].scrollHeight - chatDisplay[0].clientHeight
+    }, 300);
+  }
+
+  function chatSubmitHandler() {
+    submittedChat = chatTextArea.text().trim();
+    chatTextArea.empty();
+    console.log(submittedChat);
+    createChatLineItem('You', submittedChat);
+    splitIntoArray(submittedChat);
+    spellCheck();
+    console.log(sentenceArray);
+    recognition = '';
+  }
+
+  // ============= Utility Event Handlers ============= \\
+  // click handler to start or stop voice-to-text dictation
   dictationButton.on('click', function(){
     toggleStartStop();
   });
 
-  // ============= Submit Button Click Code ============= \\
+  // enter button handler when chat box is in focus
+  chatTextArea.keypress(function(event) {
+    if (event.which === 13) {
+      document.execCommand('insertHTML', false, '<div></div>');
+      chatSubmitHandler();
+      return false;
+    }
+  });
+
+  // submit button handler
   submitToChat.on('click', function() {
     event.preventDefault();
-    submittedChat = chatTextArea.val().trim();
-    chatTextArea.empty();
-    chatTextArea.val('');
-
-    console.log(submittedChat);
-    chatDisplay.append("<br>" + getTimestamp() + " User: " + submittedChat);
-    splitIntoArray(submittedChat);
-
-    spellCheck();
-    console.log(sentenceArray);
-
-    recognition = "";
+    chatSubmitHandler();
   });
-  // ============= END OF: Submit Button Click Code ============= \\
+  // ============= END OF: Utility Event Handlers ============= \\
 
   // ============= Spelling Validation Code ============= \\
   function spellCheck () {
@@ -140,31 +191,29 @@ $(document).ready(function(){
       console.log(response);
       // IF errors were found...
       if (response.flaggedTokens.length > 0) {
-        console.log("Before fixing mistakes (if any): " + sentenceArray);
-        for (var i = 0; i < response.flaggedTokens.length; i++) {
+        console.log('Before fixing mistakes (if any):', sentenceArray);
+        for (let i = 0; i < response.flaggedTokens.length; i++) {
           sentenceArray[sentenceArray.indexOf(response.flaggedTokens[i].token)] = response.flaggedTokens[i].suggestions[0].suggestion;
         }
-        console.log("After fixing mistakes: " + sentenceArray);
-        console.log("I believe you meant... " + sentenceArray.join(" "));
-        chatDisplay.append("<br>" + getTimestamp() + " Computer: I believe you meant... \"" + sentenceArray.join(" ") + "\"");
-        recognition = "";
+        console.log('After fixing mistakes:', sentenceArray);
+        // console.log('I believe you meant... ', sentenceArray.join(' '));
+        let message = 'I believe you meant... "' + sentenceArray.join(' ') + '"';
+        createChatLineItem('Computer', message);
+        recognition = '';
       } else {
-        console.log("Spelling validation passed!");
-        recognition = "";
+        console.log('Spelling validation passed!');
+        recognition = '';
       }
 
       // Checks to see if the spell-check corrected statement contains an HTML element
       let result = checkSubmittedTextForElement();
-      // console.log("final result:", result);
       elementMatchCount = 0; // resets element match count for future checks
 
-      if (result === "No matching elements found") {
-        console.log("I did not find any matching elements in your statement");
-        chatDisplay.append("<br>" + getTimestamp() + " Computer: I did not find any matching elements in your statement");
+      if (result === 'No matching elements found') {
+        createChatLineItem('Computer', 'I could not find any matching elements in your statement');
       }
-      else if (result === "More than one element match found") {
-        console.log("I can only create one element at a time.  Which would element do you want to create first?");
-        chatDisplay.append("<br>" + getTimestamp() + " Computer: I can only create one element at a time.  Which element do you want to create first?");
+      else if (result === 'More than one element match found') {
+        createChatLineItem('Computer', 'I can only create one element at a time.  Which element do you want to create first?');
       }
       else {
         let selectedElement = elementsObjectsArray[result].name;
@@ -172,8 +221,6 @@ $(document).ready(function(){
         let selectedElementClosingTag = elementsObjectsArray[result].closingTag;
 
         console.log(selectedElement, selectedElementOpenTag, selectedElementClosingTag);
-        chatDisplay.append("<br>" + getTimestamp() + " Computer: Sure thing, coming right up!");
-        elementGeneration.append("<br>" + selectedElement, selectedElementOpenTag, selectedElementClosingTag);
 
         // Checks to see if the spell-checked statement which contains a single HTML also has an ID
         let idResult = checkSubmittedTextForId();
@@ -181,18 +228,17 @@ $(document).ready(function(){
         let classResult = checkSubmittedTextForClass();
 
         let tagRender = selectedElementOpenTag + idResult + classResult + '>' + selectedElementClosingTag;
-        console.log(tagRender);
 
+        createChatLineItem('Computer', 'If I understand correctly, you are looking for an element tag creation.  Coming right up!');
+        console.log(tagRender);
+        let currentElements = elementGeneration.text();
+        elementGeneration.text(currentElements + tagRender + '\n');
       }
     });
   }
   // ============= END OF: Spelling Validation Code ============= \\
 
   // ============= Presence of HTML Element Validation Code ============= \\
-  function getTimestamp() {
-    return moment().format('h:mm:ss a');
-  }
-
   function checkSubmittedTextForElement() {
     sentenceArray.forEach(function(word) {
       elementsObjectsArray.forEach(function(element) {
@@ -258,20 +304,23 @@ $(document).ready(function(){
     let classResponse = '';
     let classesArray = [];
     let classWordInstanceIndexArray = [];
-    sentenceArray.forEach(function(word) {
+    let sentenceArrayCopy = sentenceArray.slice();
+    sentenceArrayCopy.forEach(function(word) {
       versionsOfClass.forEach(function (wordClass) {
         if (word === wordClass) {
           classFound = true;
-          let classIndex = sentenceArray.indexOf(word);
+          let classIndex = sentenceArrayCopy.indexOf(word);
           if (ofEqualsArray.includes(sentenceArray[classIndex + 1]) === true) {
-            classText = sentenceArray[classIndex + 2];
+            classText = sentenceArrayCopy[classIndex + 2];
+            sentenceArrayCopy.splice(classIndex, 1);
           }
           else {
-            classText = sentenceArray[classIndex + 1];
+            classText = sentenceArrayCopy[classIndex + 1];
+            sentenceArrayCopy.splice(classIndex, 1);
           }
           classesArray.push(classText)
         }
-      })
+      });
     });
     if (classFound === true) {
       console.log('Class text:', classesArray);
@@ -284,77 +333,31 @@ $(document).ready(function(){
   }
   // ============= END OF: Presence of Class attribute Validation Code ============= \\
 
-  // ==============================NEEDS TO BE WORKED INTO ABOVE=========
-
-  // function checkTextForElement(){
-  //   if (sentenceArray.includes('division') && sentenceArray.includes('ID') && sentenceArray.includes('class')) {
-  //     // ID
-  //     let idIndex = sentenceArray.indexOf('ID');
-  //     if (ofEqualsArray.includes(sentenceArray[idIndex + 1]) === true) {
-  //       idText = sentenceArray[idIndex + 2];
-  //     }
-  //     else {
-  //       idText = sentenceArray[idIndex + 1];
-  //     }
-  //
-  //     // CLASS
-  //     let classIndex = sentenceArray.indexOf('class');
-  //     if (ofEqualsArray.includes(sentenceArray[classIndex + 1]) === true) {
-  //       classText = sentenceArray[classIndex + 2];
-  //     }
-  //     else {
-  //       classText = sentenceArray[classIndex + 1];
-  //     }
-  //     console.log('<div id="' + idText + '" class="' + classText +'"></div>');
-  //     chatDisplay.append('<br><div></div>test: ' + idText);
-  //   }
-  //
-  //   else if (sentenceArray.includes('division') && sentenceArray.includes('class')) {
-  //     let classIndex = sentenceArray.indexOf('class');
-  //     if (ofEqualsArray.includes(sentenceArray[classIndex + 1]) === true) {
-  //       classText = sentenceArray[classIndex + 2];
-  //     }
-  //     else {
-  //       classText = sentenceArray[classIndex + 1];
-  //     }
-  //     console.log('<div class="' + classText +'"></div>');
-  //     chatDisplay.append('<div class="' + classText +'"></div>');
-  //   }
-  //
-  //   else if (sentenceArray.includes('division') && sentenceArray.includes('ID')) {
-  //     let idIndex = sentenceArray.indexOf('ID');
-  //     if (ofEqualsArray.includes(sentenceArray[idIndex + 1]) === true) {
-  //       idText = sentenceArray[idIndex + 2];
-  //     }
-  //     else {
-  //       idText = sentenceArray[idIndex + 1];
-  //     }
-  //     console.log('<div id="' + idText + '"></div>');
-		// 	chatDisplay.append('<div id="' + idText + '"></div>');
-  //   }
-  //   else if (sentenceArray.includes('division')) {
-  //     console.log('<div></div>');
-  //     chatDisplay.append('<div></div>');
-  //   }
-  //   else {
-  //     console.log('I did not understand');
-  //     chatDisplay.append('<br>I did not understand');
-  //   }
-  // }
+  // ============= Emailing Element Tree Function ============ \\
 
 function sendEmail(){
   var service_id = 'yahoo';
   var template_id = 'template_ZHevUYdN';
+  var elementTree = $('.CodeMirror-lines').val();
+  var emailSubject = $('#emailSubject').val();
   var template_params = {
-    lollipop: 'SPAMMED',
+    subject: emailSubject,
     name: 'Code-Dictator',
     reply_email: 'gamejock@bellsouth.net',
-    message: 'This is awesome!'
-};
+    message: myCodeMirror.options.value
+  };
   var respond = emailjs.send(service_id,template_id,template_params);
   console.log(respond)
-
+  console.log(template_params.subject)
+  console.log(elementTree)
+  
 };
 
+$('#emailSend').on('click', function(){
+  sendEmail();
+});
 
+var elementTreeString = myCodeMirror.options.value.toString();
+ console.log(myCodeMirror.options.value);
+ console.log(elementTreeString);
 });

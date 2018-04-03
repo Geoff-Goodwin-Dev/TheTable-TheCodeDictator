@@ -37,6 +37,7 @@
   <!--LINKING CSS FILES-->
   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
+
   <!-- LINKING EMAIL LIBRARY -->
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script type="text/javascript">
@@ -45,13 +46,22 @@
      })();
   </script>
 
+  <!--ALL REFERENCES FOR CREATING CODE EDITOR FOR ELEMENT TREE-->
+  <script src="assets/lib/codemirror.js"></script>
+  <link rel="stylesheet" href="assets/lib/codemirror.css">
+  <script src="assets/mode/javascript.js"></script>
+  <script src="assets/mode/css.js"></script>
+  <script src="assets/mode/htmlmixed.js"></script>
+  <script src="assets/mode/xml.js"></script>
+
+
 </head>
 
 <body>
 
   <nav>
     <div class="nav-wrapper blue darken-1">
-      <a href="#" class="brand-logo">The Code Dictator</a>
+      <a href="https://geoff-goodwin-dev.github.io/TheTable-TheCodeDictator/" class="brand-logo">The Code Dictator</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li>
           <a href="">Get Coding!</a>
@@ -67,18 +77,15 @@
   </nav>
 
 
-
-
-
   <main>
     <div class="row">
 
 
-      <div id="emaildiv" class="col s2">
+      <div id="emaildiv" class="col s12 m6 l2">
 
         <h4>Email Your Code</h4>
 
-        <div class="row">
+        <div class="row s12 m12">
           <div class="input-field col s12">
             <input id="email" type="email" class="validate" placeholder="Email">
             <label for="email" data-error="wrong" data-success="right"></label></label>
@@ -99,7 +106,7 @@
 
 
 
-      <div class="col s5">
+      <div class="col s12 m12 l5">
         <!--CHAT DISPLAY-->
         <h5>Chat Display</h5>
 
@@ -113,27 +120,25 @@
         <div id="speech" class="input-field col s12 row">
           <span id="interimTextDisplay"></span>
           <br>
-          <textarea id="chatTextArea" class="materialize-textarea" placeholder="Textarea"></textarea>
+          <div id="chatTextArea" class="materialize-textarea" contenteditable="true"></div>
           <label for="chatTextArea"></label>
         </div>
 
         <button id="submitToChat" class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+        <div id="dictationButton">
+          <img src="assets/images/micOff.png" id="microphoneIcon">
+        </div>
       </div>
 
-
-
-
-      <form class="col s4">
+      <form class="col s12 m12 l4">
         <h5>Element Generation</h5>
         <div class="input-field col s12">
-          <textarea id="elementGeneration" class="materialize-textarea" placeholder="Textarea"></textarea>
-          <label for="elementGeneration"></label>
+          <div id="elementGeneration" contenteditable="true"></div>
         </div>
 
         <h5>Element Tree</h5>
         <div class="input-field col s12">
-          <textarea id="textarea3" class="materialize-textarea" placeholder="Textarea"></textarea>
-          <label for="textarea3"></label>
+          <div id="elementTree"></div>
         </div>
       </form>
 
@@ -144,7 +149,6 @@
 
 
     <div class="row">
-      <button id="dictationButton" class="btn waves-effect waves-light offset-s2 col s2" type="submit" name="action">Click To Speak</button>
     </div>
   </main>
 
