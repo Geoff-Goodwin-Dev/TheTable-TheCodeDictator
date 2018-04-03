@@ -68,13 +68,14 @@ $(document).ready(function(){
 
   function reset() {
     recognizing = false;
-    dictationButton.text('Click to Speak');
+    $('#microphoneIcon').attr("src", "assets/images/micOff.png");
+    // dictationButton.text('Click to Speak');
   }
 
   function toggleStartStop() {
     if (recognizing) {
       recognition.stop();
-      reset();
+      recognizing = false;
     } else {
       recognition = new SpeechRecognition();
       recognition.continuous = true;
@@ -104,7 +105,8 @@ $(document).ready(function(){
         interimTextDisplay.text(interim);
       };
 
-      dictationButton.text('Click to Stop');
+      $('#microphoneIcon').attr("src", "assets/images/micOn.png");
+      // dictationButton.text('Click to Stop');
       chatTextArea.text('');
       interimTextDisplay.text('');
     }
