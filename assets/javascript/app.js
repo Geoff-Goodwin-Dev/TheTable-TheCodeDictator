@@ -6,11 +6,13 @@ $(document).ready(function(){
   var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
   let submitToChat = $('#submitToChat');
+  let validateCode = $('#validateCode');
   let chatTextArea = $('#chatTextArea');
   let interimTextDisplay = $('#interimTextDisplay');
   let dictationButton = $('#dictationButton');
   let chatDisplay = $('#chatDisplay');
   let elementGeneration = $('#elementGeneration');
+  let elementTreeData = $('.CodeMirror-lines').val();
 
   let sentenceArray = [];
   let ofEqualsArray = ['of', 'equals', 'is'];
@@ -338,7 +340,6 @@ $(document).ready(function(){
 function sendEmail(){
   var service_id = 'yahoo';
   var template_id = 'template_ZHevUYdN';
-  var elementTree = $('.CodeMirror-lines').val();
   var emailSubject = $('#emailSubject').val();
   var template_params = {
     subject: emailSubject,
@@ -349,7 +350,7 @@ function sendEmail(){
   var respond = emailjs.send(service_id,template_id,template_params);
   console.log(respond)
   console.log(template_params.subject)
-  console.log(elementTree)
+  console.log(elementTreeData)
   
 };
 
@@ -358,5 +359,43 @@ $('#emailSend').on('click', function(){
 });
 
  console.log(myCodeMirror.options.value);
- console.log(elementTreeString);
+
+
+  // ============= W3C Validator Code ============= \\
+  function codeValidator () {
+
+    let formData = new FormData();
+    elementTreeData = $('.CodeMirror-lines').val();
+    formData.append('out', 'json');
+    formData.append('content', elementTreeData);
+
+    var queryURL = 'https://validator.w3.org/nu/';
+
+    // Performing our AJAX GET request
+    $.ajax({
+      url: queryURL,
+      data: formData,
+      dataType: 'json',
+      type: "POST",
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        console.log(response);
+      },
+      error: function () {
+        console.warn(arguments);
+      }
+    });
+  };
+
+  // ============= END OF: W3C Validator Code ============= \\
+
+  validateCode.on('click', function() {
+    event.preventDefault();
+    codeValidator();
+  });
+
+
+
+
 });

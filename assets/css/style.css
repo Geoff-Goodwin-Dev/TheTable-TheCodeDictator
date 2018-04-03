@@ -26,7 +26,7 @@ h5{
   background: rgb(255, 255, 255);
   margin: 15px 11px;
   overflow-y: scroll;
-  box-shadow:rgb(179, 179, 179) 1px 1px 7px;
+  box-shadow:inset rgb(179, 179, 179) 1px 1px 7px;
   padding: 8px;
 }
 /* #chatDisplay{
@@ -50,12 +50,7 @@ h5{
   background: rgb(238, 238, 238);
   white-space: pre-wrap;
   padding: 8px;
-}
-
-#textarea3{
-  height: 250px;
-  background: rgb(238, 238, 238);
-  padding-bottom: 37px;
+  overflow-y: scroll;
 }
 
 #elementTree{
