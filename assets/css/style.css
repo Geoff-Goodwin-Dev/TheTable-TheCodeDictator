@@ -29,13 +29,6 @@ h5{
   box-shadow:rgb(179, 179, 179) 1px 1px 7px;
   padding: 8px;
 }
-/* #chatDisplay{
-  height: 300px;
-  background: rgb(238, 238, 238);
-  margin: 15px 11px;
-  overflow-y: scroll;
-  padding: 8px;
-} */
 
 #chatTextArea{
   float: left;
