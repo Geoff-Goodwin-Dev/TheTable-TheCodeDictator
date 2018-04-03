@@ -341,4 +341,20 @@ $(document).ready(function(){
   //     chatDisplay.append('<br>I did not understand');
   //   }
   // }
+
+function sendEmail(){
+  var service_id = 'yahoo';
+  var template_id = 'template_ZHevUYdN';
+  var template_params = {
+    lollipop: 'SPAMMED',
+    name: 'Code-Dictator',
+    reply_email: 'gamejock@bellsouth.net',
+    message: 'This is awesome!'
+};
+  var respond = emailjs.send(service_id,template_id,template_params);
+  console.log(respond)
+
+};
+
+
 });
