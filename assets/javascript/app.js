@@ -332,4 +332,31 @@ $(document).ready(function(){
     return classResponse
   }
   // ============= END OF: Presence of Class attribute Validation Code ============= \\
+
+  // ============= Emailing Element Tree Function ============ \\
+
+function sendEmail(){
+  var service_id = 'yahoo';
+  var template_id = 'template_ZHevUYdN';
+  var elementTree = $('.CodeMirror-lines').val();
+  var emailSubject = $('#emailSubject').val();
+  var template_params = {
+    subject: emailSubject,
+    name: 'Code-Dictator',
+    reply_email: 'gamejock@bellsouth.net',
+    message: myCodeMirror.options.value
+  };
+  var respond = emailjs.send(service_id,template_id,template_params);
+  console.log(respond)
+  console.log(template_params.subject)
+  console.log(elementTree)
+  
+};
+
+$('#emailSend').on('click', function(){
+  sendEmail();
+});
+
+ console.log(myCodeMirror.options.value);
+ console.log(elementTreeString);
 });
