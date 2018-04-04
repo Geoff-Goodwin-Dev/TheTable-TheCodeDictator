@@ -439,7 +439,7 @@ function sendEmail(){
   var template_params = {
     subject: emailSubject,
     name: 'Code-Dictator',
-    reply_email: 'gamejock@bellsouth.net',
+    reply_email: 'agonz519@gmail.com',
     message: myCodeMirror.options.value
   };
   var respond = emailjs.send(service_id,template_id,template_params);
@@ -453,6 +453,6 @@ $('#emailSend').on('click', function(){
   sendEmail();
 });
 
- console.log(myCodeMirror.options.value);
+ console.log(myCodeMirror);
  console.log(elementTreeString);
 });

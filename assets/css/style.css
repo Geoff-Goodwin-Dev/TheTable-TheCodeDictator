@@ -23,8 +23,9 @@ h5{
 
 #chatDisplay{
   height: 300px;
+  width: 100%;
   background: rgb(255, 255, 255);
-  margin: 15px 11px;
+  margin: 15px 0 0 0;
   overflow-y: scroll;
   box-shadow:rgb(179, 179, 179) 1px 1px 7px;
   padding: 8px;
@@ -91,4 +92,14 @@ h5{
   color: #aaaaaa;
   font-style: italic;
   border-bottom: 1px solid #aaaaaa;
+}
+
+#speech{
+margin-top: 0;
+box-shadow:rgb(179, 179, 179) 1px 1px 7px;
+padding: 0;
+}
+
+#leftSide{
+  margin: 0 2% 0 3%;
 }
