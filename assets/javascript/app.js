@@ -492,7 +492,4 @@ emailSendButton.on('click', function(){
     codeValidator();
   });
 
-
-
-
 });
