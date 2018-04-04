@@ -6,12 +6,15 @@ $(document).ready(function(){
   var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
   let submitToChat = $('#submitToChat');
+  let validateCode = $('#validateCode');
   let chatTextArea = $('#chatTextArea');
   let interimTextDisplay = $('#interimTextDisplay');
   let dictationButton = $('#dictationButton');
   let chatDisplay = $('#chatDisplay');
   let elementGeneration = $('#elementGeneration');
+  let elementTreeData;
   let transcriptDisplay = $('#interimTextDisplayLabel');
+
 
   let sentenceArray = [];
   let ofEqualsArray = ['of', 'equals', 'is'];
@@ -89,7 +92,7 @@ $(document).ready(function(){
       name: 'a',
       openTag: '<a',
       closingTag: '</a>',
-      aliases: ['anchor', 'a', 'link']
+      aliases: ['anchor', 'link']
     },
     {
       position: 9,
@@ -432,27 +435,67 @@ $(document).ready(function(){
   // ============= Emailing Element Tree Function ============ \\
 
 function sendEmail(){
-  var service_id = 'yahoo';
-  var template_id = 'template_ZHevUYdN';
-  var elementTree = $('.CodeMirror-lines').val();
-  var emailSubject = $('#emailSubject').val();
-  var template_params = {
+  let service_id = 'yahoo';
+  let template_id = 'template_ZHevUYdN';
+  elementTreeData = $('.CodeMirror-code').text();
+  let email = $('#email').val();
+  let emailSubject = $('#emailSubject').val();
+  let template_params = {
     subject: emailSubject,
     name: 'Code-Dictator',
-    reply_email: 'gamejock@bellsouth.net',
-    message: myCodeMirror.options.value
+    reply_email: email,
+    message: elementTreeData
   };
-  var respond = emailjs.send(service_id,template_id,template_params);
+
+  let respond = emailjs.send(service_id,template_id,template_params);
   console.log(respond);
   console.log(template_params.subject);
-  console.log(elementTree);
-  
+  console.log(elementTreeData);
+
 };
 
 $('#emailSend').on('click', function(){
-  sendEmail();
+  // sendEmail();
+  $('#email').val("");
+  $('#emailSubject').val("");
+
 });
 
- console.log(myCodeMirror.options.value);
- console.log(elementTreeString);
+  // ============= W3C Validator Code ============= \\
+  function codeValidator () {
+
+    let formData = new FormData();
+    elementTreeData = $('.CodeMirror-code').text();
+    formData.append('out', 'json');
+    formData.append('content', elementTreeData);
+
+    var queryURL = 'https://validator.w3.org/nu/';
+
+    // Performing our AJAX GET request
+    $.ajax({
+      url: queryURL,
+      data: formData,
+      dataType: 'json',
+      type: "POST",
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        console.log(response);
+      },
+      error: function () {
+        console.warn(arguments);
+      }
+    });
+  };
+
+  // ============= END OF: W3C Validator Code ============= \\
+
+  validateCode.on('click', function() {
+    event.preventDefault();
+    codeValidator();
+  });
+
+
+
+
 });
