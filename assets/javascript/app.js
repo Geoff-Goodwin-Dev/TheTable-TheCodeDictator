@@ -92,7 +92,7 @@ $(document).ready(function(){
       name: 'a',
       openTag: '<a',
       closingTag: '</a>',
-      aliases: ['anchor', 'a', 'link']
+      aliases: ['anchor', 'link']
     },
     {
       position: 9,
