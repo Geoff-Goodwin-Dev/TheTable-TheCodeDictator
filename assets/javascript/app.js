@@ -12,9 +12,8 @@ $(document).ready(function(){
   let dictationButton = $('#dictationButton');
   let chatDisplay = $('#chatDisplay');
   let elementGeneration = $('#elementGeneration');
-  let elementTreeData;
   let transcriptDisplay = $('#interimTextDisplayLabel');
-
+  let emailSendButton = $('#emailSend');
 
   let sentenceArray = [];
   let ofEqualsArray = ['of', 'equals', 'is'];
@@ -25,7 +24,7 @@ $(document).ready(function(){
   let classText;
   let submittedChat;
   let elementObjectIndex;
-
+  let elementTreeData;
   let final;
   let interim;
   let recognizing;
@@ -346,7 +345,6 @@ $(document).ready(function(){
           if (alias === word) {
             elementMatchCount++;
             elementObjectIndex = element.position;
-            // console.log("match found: " + alias + " in: " + element.name + " index: " + elementObjectIndex)
           }
         });
       });
@@ -363,7 +361,7 @@ $(document).ready(function(){
 
       // MORE THAN ONE ELEMENT MATCH IS FOUND
       default:
-        return "More than one element match found";
+        return 'More than one element match found';
     }
   }
   // ============= END OF: Presence of HTML Element Validation Code ============= \\
@@ -402,7 +400,6 @@ $(document).ready(function(){
     let classFound = false;
     let classResponse = '';
     let classesArray = [];
-    let classWordInstanceIndexArray = [];
     let sentenceArrayCopy = sentenceArray.slice();
     sentenceArrayCopy.forEach(function(word) {
       versionsOfClass.forEach(function (wordClass) {
@@ -452,12 +449,12 @@ function sendEmail(){
   console.log(template_params.subject);
   console.log(elementTreeData);
 
-};
+}
 
-$('#emailSend').on('click', function(){
-  // sendEmail();
-  $('#email').val("");
-  $('#emailSubject').val("");
+emailSendButton.on('click', function(){
+  sendEmail();
+  $('#email').val('');
+  $('#emailSubject').val('');
 
 });
 
@@ -486,7 +483,7 @@ $('#emailSend').on('click', function(){
         console.warn(arguments);
       }
     });
-  };
+  }
 
   // ============= END OF: W3C Validator Code ============= \\
 
