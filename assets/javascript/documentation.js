@@ -119,10 +119,16 @@ const elementsObjectsArray = [
   }
 ];
 
-for (var i = 0; i <= elementsObjectsArray.length; i++) {
-  var elementName = elementsObjectsArray[i].name
-  var elementAlias = elementsObjectsArray[i].aliases
-  console.log(elementsObjectsArray[i].name)
-  console.log(elementsObjectsArray[i].aliases)
-  $("#tableBody").append("<tr><td>" + elementName + "</td><td>" + elementAlias + "</td></tr>");
+let tableRow = $('<tr>');
+let tableData = $('<td>');
+
+for (var i = 0; i < elementsObjectsArray.length; i++) {
+  var elementName = elementsObjectsArray[i].name;
+  var elementAlias = elementsObjectsArray[i].aliases;
+  // console.log(elementName);
+  // console.log(elementAlias);
+  tableData.append(elementName);
+  tableRow.append(tableData);
+  $('#tableBody').append(tableRow);
 }
+// $("#tableBody").append("<tr><td>" + elementName + "</td><td>" + elementAlias + "</td></tr>");
