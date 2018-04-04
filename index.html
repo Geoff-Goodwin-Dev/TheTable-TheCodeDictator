@@ -25,7 +25,7 @@
   <!--<link href="https://fonts.googleapis.com/css?family=Fondamento" rel="stylesheet">-->
 
   <!--RESETTING CSS-->
-   <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
 
   <!-- LINKING BOOTSTRAP -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -40,9 +40,9 @@
   <!-- LINKING EMAIL LIBRARY -->
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script type="text/javascript">
-     (function(){
-        emailjs.init("user_nDJDRoWP67ytmP75yiD2X");
-     })();
+    (function () {
+      emailjs.init("user_nDJDRoWP67ytmP75yiD2X");
+    })();
   </script>
 
   <!--ALL REFERENCES FOR CREATING CODE EDITOR FOR ELEMENT TREE-->
@@ -80,31 +80,6 @@
     <div class="row">
 
 
-      <div id="emaildiv" class="col s12 m6 l2">
-
-        <h4>Email Your Code</h4>
-
-        <div class="row s12 m12">
-          <div class="input-field col s12">
-            <input id="email" type="email" class="validate" placeholder="Email">
-            <label for="email" data-error="wrong" data-success="right"></label>
-          </div>
-        </div>
-
-        <div class="row">
-            <div class="input-field col s12">
-              <input id="emailSubject" type="text" class="validate" placeholder="Email-Subject">
-              <label for="emailSubject" data-error="wrong" data-success="right"></label>
-            </div>
-          </div>
-
-        <button id="emailSend" class="btn waves-effect waves-light" type="submit" name="action">Send</button>
-
-
-      </div>
-
-
-
       <div class="col s12 m12 l5">
         <!--CHAT DISPLAY-->
         <h5>Chat Display</h5>
@@ -113,7 +88,7 @@
 
         </div>
 
-        <h5>Dictation</h5>  
+        <h5>Dictation</h5>
         <!--CHAT TEXT AND DICTATION ENTRY SECTION-->
 
         <div id="speech" class="input-field col s12 row">
@@ -132,6 +107,7 @@
 
       </div>
 
+
       <div class="col s12 m12 l4">
         <h5>Element Generation</h5>
         <div class="input-field col s12">
@@ -147,16 +123,36 @@
 
       </div>
 
+      <div id="emailDiv" class="col s12 m6 l2">
+
+        <h4>Email Your Code</h4>
+
+        <div class="row s12 m12">
+          <div class="input-field col s12">
+            <input id="email" type="email" class="validate" placeholder="Email">
+            <label for="email" data-error="wrong" data-success="right"></label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="emailSubject" type="text" class="validate" placeholder="Email-Subject">
+            <label for="emailSubject" data-error="wrong" data-success="right"></label>
+          </div>
+        </div>
+
+        <button id="emailSend" class="btn waves-effect waves-light" type="submit" name="action">Send</button>
 
 
-    </div>
-
-
-
-
-    <div class="row">
-    </div>
+      </div>
   </main>
+
+
+
+
+
+
+
 
 
 
