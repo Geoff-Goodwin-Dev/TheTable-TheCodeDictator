@@ -7,6 +7,7 @@ body {
 
 .brand-logo {
   margin: 0 5%;
+  font-family: 'Cinzel', serif;
 }
 
 #dictatorImg {
@@ -114,3 +115,22 @@ padding: 0;
 #validateCode {
   margin-top: 15px;
 }
+
+#validatorBar {
+  background-color: #c0c0c0;
+  padding: 2px;
+  cursor: pointer;
+}
+
+#validatorInstructions:hover {
+  background-color: #24a599;
+  color: white;
+}
+
+.validationContent {
+  display: none;
+  padding: 10px;
+  background-color: #ededed;
+  cursor: auto;
+}
+
