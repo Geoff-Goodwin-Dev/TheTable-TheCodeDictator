@@ -59,7 +59,8 @@
 <body>
 
   <nav>
-    <div class="nav-wrapper blue darken-1">
+    <div class="nav-wrapper blue darken-1" id="navBar">
+      <img src="assets/images/theDictator.png" id="dictatorImg">
       <a href="https://geoff-goodwin-dev.github.io/TheTable-TheCodeDictator/" class="brand-logo">The Code Dictator</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li>
@@ -67,9 +68,6 @@
         </li>
         <li>
           <a href="documentation.html">Command Documentation</a>
-        </li>
-        <li>
-          <a href="">Help</a>
         </li>
       </ul>
     </div>
@@ -84,7 +82,7 @@
         <!--CHAT DISPLAY-->
         <h5>Chat Display</h5>
 
-        <div id="chatDisplay" class="row">
+        <div id="chatDisplay">
 
         </div>
 
@@ -94,37 +92,35 @@
           <p id="interimTextDisplayLabel">Transcript: <span id="interimTextDisplay"></span></p>
           <div id="chatTextEntryAndMic">
 
-            <div id="chatTextArea" class="materialize-textarea" contenteditable="true"></div>
+            <div id="chatTextArea" contenteditable="true"></div>
             <div id="dictationButton">
               <img src="assets/images/micOff.png" id="microphoneIcon">
             </div>
           </div>
-          <!--<label for="chatTextArea"></label>-->
         </div>
 
         <button id="submitToChat" class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
 
       </div>
 
-
       <div class="col s12 m12 l4">
         <h5>Element Generation</h5>
-        <div class="input-field col s12">
+        <div class="col s12">
           <div id="elementGeneration" contenteditable="true"></div>
         </div>
+      </div>
 
+      <div class="col s12 m12 l4">
         <h5>Element Tree</h5>
-        <div class="input-field col s12">
+        <div class="col s12">
           <div id="elementTree"></div>
         </div>
         <button id="validateCode" class="btn waves-effect waves-light" type="submit" name="action">VALIDATE CODE</button>
       </div>
 
-
-
       <div id="emailDiv" class="col s12 m6 l2">
 
-        <h4>Email Your Code</h4>
+        <h5>Email Your Code</h5>
 
         <div class="row s12 m12">
           <div class="input-field col s12">
@@ -142,16 +138,9 @@
 
         <button id="emailSend" class="btn waves-effect waves-light" type="submit" name="action">Send</button>
 
-
       </div>
 
-
-
-
   </main>
-
-
-
 
   <footer class="page-footer blue darken-1">
     <div class="footer-copyright">
