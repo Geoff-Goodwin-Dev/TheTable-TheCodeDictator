@@ -11,12 +11,12 @@ body {
 }
 
 #dictatorImg {
-  height: 55px;
+  height: 85px;
   margin: 0 5px;
 }
 
-#nav-mobile{
- margin: 0 5%;
+.logo {
+  font-size: 50px;
 }
 
 main {
@@ -132,5 +132,17 @@ padding: 0;
   padding: 10px;
   background-color: #ededed;
   cursor: auto;
+}
+
+.container {
+  text-align: center;
+}
+
+
+@media screen and (max-width: 911px) {
+  .logo {
+      font-size: 30px;
+      content: center;
+  }
 }
 
