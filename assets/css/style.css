@@ -28,6 +28,10 @@ h5 {
   border-bottom: 1px solid rgb(221, 221, 221);
 }
 
+h6 {
+  font-weight: bold;
+}
+
 #chatDisplay {
   height: 353px;
   width: 100%;
@@ -147,3 +151,10 @@ padding: 0;
   }
 }
 
+.centeredOnPage {
+  margin: 0 10%;
+}
+
+th{
+  font-weight: 900;
+}
