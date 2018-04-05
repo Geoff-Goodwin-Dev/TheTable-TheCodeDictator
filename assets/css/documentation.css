@@ -9,12 +9,13 @@ main {
   margin: 0 10%;
 }
 
-#nav-mobile{
-  margin: 0 5%;
- }
+ .logo {
+  font-size: 50px;
+}
 
- .brand-logo{
-  margin: 0 5%;
+#dictatorImg {
+  height: 85px;
+  margin: 0 5px;
 }
 
 h5{
@@ -23,5 +24,16 @@ h5{
 
 th{
   font-weight: 900;
+}
+
+.container {
+  text-align: center;
+}
+
+@media screen and (max-width: 911px) {
+  .logo {
+      font-size: 30px;
+      content: center;
+  }
 }
 
