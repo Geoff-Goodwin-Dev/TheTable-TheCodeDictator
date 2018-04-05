@@ -14,6 +14,8 @@ $(document).ready(function(){
   let elementGeneration = $('#elementGeneration');
   let transcriptDisplay = $('#interimTextDisplayLabel');
   let emailSendButton = $('#emailSend');
+  let micIcon = $('#microphoneIcon');
+  let validatorWindowExpanded = false;
 
   let sentenceArray = [];
   let ofEqualsArray = ['of', 'equals', 'is'];
@@ -24,7 +26,7 @@ $(document).ready(function(){
   let classText;
   let submittedChat;
   let elementObjectIndex;
-  let elementTreeData;
+  let elementTreeData = ""; //must be initialized as empty string or else validator logic breaks
   let final;
   let interim;
   let recognizing;
@@ -156,33 +158,33 @@ $(document).ready(function(){
     '<body>\n' +
     '\n' +
     '</body>\n' +
-    '</html>\n',
-    mode:  'htmlmixed'
+    '</html>',
+    mode:  'htmlmixed',
+    tabSize: 2,
+    lineNumbers: true
   });
 
-  transcriptDisplay.toggle();
+  // transcriptDisplay.toggle();
 
   function reset() {
     recognizing = false;
-    $('#microphoneIcon').attr("src", "assets/images/micOff.png");
-    // dictationButton.text('Click to Speak');
+    micIcon.attr("src", "assets/images/micOff.png");
   }
 
   function toggleStartStop() {
-    if (recognizing) {
+    if (recognizing === true) {
       recognition.stop();
+      micIcon.attr("src", "assets/images/micOff.png");
       recognizing = false;
-    } else {
+    }
+    else {
       recognition = new SpeechRecognition();
       recognition.continuous = true;
       recognition.interimResults = true;
-
-      reset();
-
       recognition.start();
+      micIcon.attr("src", "assets/images/micOn.png");
       recognizing = true;
       recognition.onend = reset;
-
       recognition.onresult = function(e) {
         final = '';
         interim = '';
@@ -191,19 +193,17 @@ $(document).ready(function(){
             final += e.results[i][0].transcript;
             console.log('final transcription:', e.results[i][0].transcript);
             chatTextArea.focus();
-            toggleStartStop();
-            transcriptDisplay.toggle();
+            if (recognizing === true) {
+              toggleStartStop();
+              transcriptDisplay.toggle();
+            }
           } else {
             interim += e.results[i][0].transcript;
           }
         }
-
         chatTextArea.text(final);
         interimTextDisplay.text(interim);
       };
-
-      $('#microphoneIcon').attr("src", "assets/images/micOn.png");
-      // dictationButton.text('Click to Stop');
       chatTextArea.text('');
       interimTextDisplay.text('');
     }
@@ -434,14 +434,14 @@ $(document).ready(function(){
 function sendEmail(){
   let service_id = 'yahoo';
   let template_id = 'template_ZHevUYdN';
-  elementTreeData = $('.CodeMirror-code').text();
+  let emailBody = getElementTreeText();
   let email = $('#email').val();
   let emailSubject = $('#emailSubject').val();
   let template_params = {
     subject: emailSubject,
     name: 'Code-Dictator',
     reply_email: email,
-    message: elementTreeData
+    message: emailBody
   };
 
   let respond = emailjs.send(service_id,template_id,template_params);
@@ -458,11 +458,20 @@ emailSendButton.on('click', function(){
 
 });
 
+  function getElementTreeText () {
+    elementTreeData = '';
+    $('.CodeMirror-line').each(function () {
+      elementTreeData = elementTreeData + $(this).text() + '\n';
+    });
+    return elementTreeData;
+  }
+
   // ============= W3C Validator Code ============= \\
   function codeValidator () {
 
     let formData = new FormData();
-    elementTreeData = $('.CodeMirror-code').text();
+    let data = getElementTreeText();
+    console.log(data);
     formData.append('out', 'json');
     formData.append('content', elementTreeData);
 
@@ -478,6 +487,51 @@ emailSendButton.on('click', function(){
       contentType: false,
       success: function (response) {
         console.log(response);
+        if (response.messages.length > 0) {
+          console.log('OH OH! Errors found!!!');
+          $('#validationText').html('I found some issues with your code :(<br><br>');
+          for (let i = 0; i < response.messages.length; i++) {
+            // if (response.messages[i].message === 'Non-space character in page trailer.') { continue; }
+            let errorListItem = $('<li>');
+            let issueTypeSpan = $('<span>');
+            let lineNumberSpan = $('<span>').css('font-weight', 'bold');
+            let extractSpan = $('<span>').css('font-weight', 'bold');
+            let extractSpanText = $('<span>');
+            let subType = response.messages[i].subType; // these are for warnings
+            let lineNumber = response.messages[i].lastLine; // line number issue is on
+            let extract = response.messages[i].extract; // piece of code containing issue
+            let type = response.messages[i].type; // these are for errors
+            lineNumberSpan.text('Line Number: ');
+            extractSpan.text('Code: ');
+            extractSpanText.text(extract);
+            issueTypeSpan.css('font-weight', 'bold');
+            issueTypeSpan.css('padding', '5px');
+            issueTypeSpan.css('border-radius', '20px');
+            if (subType === 'warning') {
+              issueTypeSpan.css('background-color', '#fecc7d');
+              issueTypeSpan.text(subType);
+            }
+            else if (type === 'error') {
+              issueTypeSpan.css('background-color', '#FF908D');
+              issueTypeSpan.text(type);
+            }
+            errorListItem.text(response.messages[i].message);
+            errorListItem.prepend(issueTypeSpan);
+            errorListItem.append('<br>');
+            errorListItem.append(lineNumberSpan);
+            errorListItem.append(lineNumber);
+            errorListItem.append('<br>');
+            errorListItem.append(extractSpan);
+            errorListItem.append(extractSpanText);
+            $('#list').append(errorListItem);
+            $('#list').append('<br>');
+
+          };
+        }
+        else {
+          console.log('No Errors Found');
+          $('#validationText').text('No issues found, good job! :)');
+        }
       },
       error: function () {
         console.warn(arguments);
@@ -487,12 +541,24 @@ emailSendButton.on('click', function(){
 
   // ============= END OF: W3C Validator Code ============= \\
 
+  // FUNCTION FOR EXPANDING SEARCH BAR
+  $('#validatorInstructions').click(function() {
+    $('.validationContent').slideToggle('400');
+    if (validatorWindowExpanded === false) {
+      $("#viewClose").text("close");
+      validatorWindowExpanded = true;
+    }
+    else {
+      $("#viewClose").text("view");
+      validatorWindowExpanded = false;
+    }
+  });
+
   validateCode.on('click', function() {
     event.preventDefault();
+    $('#list').text("");
     codeValidator();
   });
 
-  var elem = document.querySelector('.sidenav');
-  var instance = M.Sidenav.init(elem, options);
 
 });

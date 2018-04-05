@@ -22,10 +22,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.0/moment.js"></script>
 
   <!--IMPORTING GOOGLE FONT PLACEHOLDER-->
-  <!--<link href="https://fonts.googleapis.com/css?family=Fondamento" rel="stylesheet">-->
-
-  <!--RESETTING CSS-->
-  <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+  <link href="https://fonts.googleapis.com/css?family=Cinzel:900" rel="stylesheet">
 
   <!-- LINKING BOOTSTRAP -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -53,15 +50,16 @@
   <script src="assets/mode/htmlmixed.js"></script>
   <script src="assets/mode/xml.js"></script>
 
-
+  <link rel="icon" href="assets/images/theDictator.png">
 </head>
 
 <body>
 
-  <nav>
-    <div class="nav-wrapper blue darken-1">
-      <a href="https://geoff-goodwin-dev.github.io/TheTable-TheCodeDictator/" class="brand-logo">The Code Dictator</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
+  <nav class="nav-extended blue darken-1">
+    <div class="nav-wrapper" id="navBar">
+      
+      <a href="https://geoff-goodwin-dev.github.io/TheTable-TheCodeDictator/" class="logo"><img src="assets/images/theDictator.png" id="dictatorImg">The Code Dictator</a>
+      <ul id="nav-mobile" class="right">
         <li>
           <a href="index.html">Get Coding!</a>
         </li>
@@ -81,7 +79,7 @@
         <!--CHAT DISPLAY-->
         <h5>Chat Display</h5>
 
-        <div id="chatDisplay" class="row">
+        <div id="chatDisplay">
 
         </div>
 
@@ -91,42 +89,56 @@
           <p id="interimTextDisplayLabel">Transcript: <span id="interimTextDisplay"></span></p>
           <div id="chatTextEntryAndMic">
 
-            <div id="chatTextArea" class="materialize-textarea" contenteditable="true"></div>
+            <div id="chatTextArea" contenteditable="true"></div>
             <div id="dictationButton">
               <img src="assets/images/micOff.png" id="microphoneIcon">
             </div>
           </div>
-          <!--<label for="chatTextArea"></label>-->
         </div>
 
         <button id="submitToChat" class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
 
       </div>
 
-
       <div class="col s12 m12 l4">
         <h5>Element Generation</h5>
-        <div class="input-field col s12">
+        <div class="col s12">
           <div id="elementGeneration" contenteditable="true"></div>
-        </div>
-
-        <h5>Element Tree</h5>
-        <div class="input-field col s12">
-          <div id="elementTree"></div>
         </div>
       </div>
 
+      <div class="col s12 m12 l4">
+        <h5>Element Tree</h5>
+        <div class="col s12">
+          <div id="elementTree"></div>
+          <div id="validatorBar">
+            <div id="validatorInstructions">
+              <span id="clickMessage">Click to <span id="viewClose">view</span> validation issues</span>
+            </div>
 
+            <div class="validationContent">
+              <div id="validationText">
+                Click the <span style="background-color: #24a599; color: white; border-radius: 5px; padding: 5px;">VALIDATE CODE</span> button below!
+              </div>
+              <div>
+                <ol id="list">
+                  <!-- Validation Issues here -->
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button id="validateCode" class="btn waves-effect waves-light" type="submit" name="action">VALIDATE CODE</button>
+      </div>
 
       <div id="emailDiv" class="col s12 m6 l2">
 
-        <h4>Email Your Code</h4>
+        <h5>Email Your Code</h5>
 
         <div class="row s12 m12">
           <div class="input-field col s12">
             <input id="email" type="email" class="validate" placeholder="Email">
             <label for="email" data-error="wrong" data-success="right"></label>
-            </label>
           </div>
         </div>
 
@@ -139,19 +151,12 @@
 
         <button id="emailSend" class="btn waves-effect waves-light" type="submit" name="action">Send</button>
 
-
       </div>
-
-
-
-
+    </div>
   </main>
 
-
-
-
-  <footer class="page-footer blue darken-1">
-    <div class="footer-copyright">
+  <footer class="page-footer teal lighten-1">
+    <div class="footer-copyright blue darken-1">
       <div class="container">
         © 2018 Copyright Code Dictator
       </div>
