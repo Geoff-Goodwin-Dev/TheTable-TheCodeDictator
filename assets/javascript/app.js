@@ -14,6 +14,7 @@ $(document).ready(function(){
   let elementGeneration = $('#elementGeneration');
   let transcriptDisplay = $('#interimTextDisplayLabel');
   let emailSendButton = $('#emailSend');
+  let micIcon = $('#microphoneIcon');
 
   let sentenceArray = [];
   let ofEqualsArray = ['of', 'equals', 'is'];
@@ -160,29 +161,27 @@ $(document).ready(function(){
     mode:  'htmlmixed'
   });
 
-  transcriptDisplay.toggle();
+  // transcriptDisplay.toggle();
 
   function reset() {
     recognizing = false;
-    $('#microphoneIcon').attr("src", "assets/images/micOff.png");
-    // dictationButton.text('Click to Speak');
+    micIcon.attr("src", "assets/images/micOff.png");
   }
 
   function toggleStartStop() {
-    if (recognizing) {
+    if (recognizing === true) {
       recognition.stop();
+      micIcon.attr("src", "assets/images/micOff.png");
       recognizing = false;
-    } else {
+    }
+    else {
       recognition = new SpeechRecognition();
       recognition.continuous = true;
       recognition.interimResults = true;
-
-      reset();
-
       recognition.start();
+      micIcon.attr("src", "assets/images/micOn.png");
       recognizing = true;
       recognition.onend = reset;
-
       recognition.onresult = function(e) {
         final = '';
         interim = '';
@@ -191,19 +190,17 @@ $(document).ready(function(){
             final += e.results[i][0].transcript;
             console.log('final transcription:', e.results[i][0].transcript);
             chatTextArea.focus();
-            toggleStartStop();
-            transcriptDisplay.toggle();
+            if (recognizing === true) {
+              toggleStartStop();
+              transcriptDisplay.toggle();
+            }
           } else {
             interim += e.results[i][0].transcript;
           }
         }
-
         chatTextArea.text(final);
         interimTextDisplay.text(interim);
       };
-
-      $('#microphoneIcon').attr("src", "assets/images/micOn.png");
-      // dictationButton.text('Click to Stop');
       chatTextArea.text('');
       interimTextDisplay.text('');
     }
