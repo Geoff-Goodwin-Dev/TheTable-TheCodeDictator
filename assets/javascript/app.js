@@ -49,6 +49,11 @@ $(document).ready(function(){
     lineNumbers: true
   });
 
+  function onPageLoadInitialize() {
+    createChatLineItem('The Dictator', computerMessages.welcomeMessage);
+    chatTextArea.focus();
+  }
+
   // ============= Speech Recognition Functions ============= \\
   function reset() {
     recognizing = false;
@@ -123,6 +128,8 @@ $(document).ready(function(){
     }, 300);
   }
 
+  onPageLoadInitialize();
+
   function chatSubmitHandler() {
     submittedChat = chatTextArea.text().trim();
     chatTextArea.empty();
@@ -160,7 +167,7 @@ $(document).ready(function(){
 
   // ============= Spelling Validation Code ============= \\
   function spellCheck () {
-    var queryURL = "https://api.cognitive.microsoft.com/bing/v7.0/spellcheck?text=" + submittedChat;
+    let queryURL = "https://api.cognitive.microsoft.com/bing/v7.0/spellcheck?text=" + submittedChat;
 
     // Performing our AJAX GET request
     $.ajax({
@@ -182,8 +189,8 @@ $(document).ready(function(){
         }
         console.log('After fixing mistakes:', sentenceArray);
         // console.log('I believe you meant... ', sentenceArray.join(' '));
-        let message = 'I believe you meant... "' + sentenceArray.join(' ') + '"';
-        createChatLineItem('Computer', message);
+        let message = computerMessages.spellingCorrected + sentenceArray.join(' ') + '"';
+        createChatLineItem('The Dictator', message);
         checkSubmittedTextForElementPostSpellCheck();
         recognition = '';
       } else {
@@ -202,10 +209,10 @@ $(document).ready(function(){
     elementMatchCount = 0; // resets element match count for future checks
 
     if (result === 'No matching elements found') {
-      createChatLineItem('Computer', 'I could not find any matching elements in your statement');
+      createChatLineItem('The Dictator', computerMessages.noElementsFound);
     }
     else if (result === 'More than one element match found') {
-      createChatLineItem('Computer', 'I can only create one element at a time.  Which element do you want to create first?');
+      createChatLineItem('The Dictator', computerMessages.tooManyElementsFound);
     }
     else {
       let selectedElement = elementsObjectsArray[result].name;
@@ -221,7 +228,7 @@ $(document).ready(function(){
 
       let tagRender = selectedElementOpenTag + idResult + classResult + '>' + selectedElementClosingTag;
 
-      createChatLineItem('Computer', 'If I understand correctly, you are looking for an element tag creation.  Coming right up!');
+      createChatLineItem('The Dictator', computerMessages.creatingElement);
       console.log(tagRender);
       let currentElements = elementGeneration.text();
       elementGeneration.text(currentElements + tagRender + '\n');
@@ -340,14 +347,12 @@ function sendEmail(){
   console.log(respond);
   console.log(template_params.subject);
   console.log(elementTreeData);
-
 }
 
 emailSendButton.on('click', function(){
   sendEmail();
   $('#email').val('');
   $('#emailSubject').val('');
-
 });
 
   function getElementTreeText () {
@@ -418,7 +423,7 @@ emailSendButton.on('click', function(){
             $('#list').append(errorListItem);
             $('#list').append('<br>');
 
-          };
+          }
         }
         else {
           console.log('No Errors Found');
