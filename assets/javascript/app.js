@@ -130,6 +130,7 @@ $(document).ready(function(){
     createChatLineItem('You', submittedChat);
     splitIntoArray(submittedChat);
     spellCheck();
+    console.log('spell-check complete!');
     console.log(sentenceArray);
     recognition = '';
   }
@@ -168,7 +169,7 @@ $(document).ready(function(){
       headers: {
         "Ocp-Apim-Subscription-Key": "3606c69fe0fd4e23ad73b2955bf6fcf7",
         "Accept": "application/json",
-      }
+      },
     })
     // After the data comes back from the API ...
     .then(function (response) {
@@ -183,44 +184,49 @@ $(document).ready(function(){
         // console.log('I believe you meant... ', sentenceArray.join(' '));
         let message = 'I believe you meant... "' + sentenceArray.join(' ') + '"';
         createChatLineItem('Computer', message);
+        checkSubmittedTextForElementPostSpellCheck();
         recognition = '';
       } else {
         console.log('Spelling validation passed!');
+        checkSubmittedTextForElementPostSpellCheck();
         recognition = '';
-      }
-
-      // Checks to see if the spell-check corrected statement contains an HTML element
-      let result = checkSubmittedTextForElement();
-      elementMatchCount = 0; // resets element match count for future checks
-
-      if (result === 'No matching elements found') {
-        createChatLineItem('Computer', 'I could not find any matching elements in your statement');
-      }
-      else if (result === 'More than one element match found') {
-        createChatLineItem('Computer', 'I can only create one element at a time.  Which element do you want to create first?');
-      }
-      else {
-        let selectedElement = elementsObjectsArray[result].name;
-        let selectedElementOpenTag = elementsObjectsArray[result].openTag;
-        let selectedElementClosingTag = elementsObjectsArray[result].closingTag;
-
-        console.log(selectedElement, selectedElementOpenTag, selectedElementClosingTag);
-
-        // Checks to see if the spell-checked statement which contains a single HTML also has an ID
-        let idResult = checkSubmittedTextForId();
-
-        let classResult = checkSubmittedTextForClass();
-
-        let tagRender = selectedElementOpenTag + idResult + classResult + '>' + selectedElementClosingTag;
-
-        createChatLineItem('Computer', 'If I understand correctly, you are looking for an element tag creation.  Coming right up!');
-        console.log(tagRender);
-        let currentElements = elementGeneration.text();
-        elementGeneration.text(currentElements + tagRender + '\n');
       }
     });
   }
   // ============= END OF: Spelling Validation Code ============= \\
+
+  // Checks to see if the spell-check corrected statement contains an HTML element
+  function checkSubmittedTextForElementPostSpellCheck() {
+
+    let result = checkSubmittedTextForElement();
+    elementMatchCount = 0; // resets element match count for future checks
+
+    if (result === 'No matching elements found') {
+      createChatLineItem('Computer', 'I could not find any matching elements in your statement');
+    }
+    else if (result === 'More than one element match found') {
+      createChatLineItem('Computer', 'I can only create one element at a time.  Which element do you want to create first?');
+    }
+    else {
+      let selectedElement = elementsObjectsArray[result].name;
+      let selectedElementOpenTag = elementsObjectsArray[result].openTag;
+      let selectedElementClosingTag = elementsObjectsArray[result].closingTag;
+
+      console.log(selectedElement, selectedElementOpenTag, selectedElementClosingTag);
+
+      // Checks to see if the spell-checked statement which contains a single HTML also has an ID
+      let idResult = checkSubmittedTextForId();
+
+      let classResult = checkSubmittedTextForClass();
+
+      let tagRender = selectedElementOpenTag + idResult + classResult + '>' + selectedElementClosingTag;
+
+      createChatLineItem('Computer', 'If I understand correctly, you are looking for an element tag creation.  Coming right up!');
+      console.log(tagRender);
+      let currentElements = elementGeneration.text();
+      elementGeneration.text(currentElements + tagRender + '\n');
+    }
+  }
 
   // ============= Presence of HTML Element Validation Code ============= \\
   function checkSubmittedTextForElement() {
