@@ -41,7 +41,7 @@ h6 {
 }
 
 #chatDisplay {
-  height: 353px;
+  height: 354px;
   width: 100%;
   background: rgb(255, 255, 255);
   overflow-y: scroll;
@@ -86,6 +86,10 @@ h6 {
   color: #aaaaaa;
   font-style: italic;
   border-bottom: 1px solid #aaaaaa;
+}
+
+.validate {
+  margin-bottom: 10px !important;
 }
 
 #elementGeneration {
