@@ -22,6 +22,7 @@ $(document).ready(function(){
   let versionsOfId = ['id', 'ID', 'Id', 'I.D.', 'i.d.', 'identifier'];
   let versionsOfClass =  ['class', 'Class'];
   let elementMatchCount = 0;
+  let elementCreatedCounter = 1;
   let idText;
   let classText;
   let submittedChat;
@@ -230,8 +231,31 @@ $(document).ready(function(){
 
       createChatLineItem('The Dictator', computerMessages.creatingElement);
       console.log(tagRender);
-      let currentElements = elementGeneration.text();
-      elementGeneration.text(currentElements + tagRender + '\n');
+      let newElementSpan = $('<span>');
+      let newElementSpanId = 'elementSpan' + elementCreatedCounter;
+      newElementSpan.attr('id', newElementSpanId).addClass('renderedTag').attr('draggable', true).text(tagRender);
+      elementGeneration.append(newElementSpan, '\n');
+      selectText(newElementSpanId);
+      elementCreatedCounter++
+    }
+  }
+
+  // selects text of item based on supplied element ID
+  function selectText(element) {
+    let doc = document
+      , text = doc.getElementById(element)
+      , range, selection
+    ;
+    if (doc.body.createTextRange) {
+      range = document.body.createTextRange();
+      range.moveToElementText(text);
+      range.select();
+    } else if (window.getSelection) {
+      selection = window.getSelection();
+      range = document.createRange();
+      range.selectNodeContents(text);
+      selection.removeAllRanges();
+      selection.addRange(range);
     }
   }
 

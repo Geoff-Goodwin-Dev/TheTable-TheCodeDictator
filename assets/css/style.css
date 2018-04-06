@@ -100,6 +100,10 @@ h6 {
   overflow-y: scroll;
 }
 
+.renderedTag {
+  cursor: move;
+}
+
 #elementTree {
   height: 250px;
   background: rgb(238, 238, 238);
