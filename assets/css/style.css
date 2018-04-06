@@ -20,12 +20,24 @@ body {
   font-family: 'Cinzel', serif;
 }
 
+a:hover {
+  text-decoration: none;
+}
+
+.links {
+  line-height: 90px
+}
+
 main {
   flex: 1 0 auto;
 }
 
 h5 {
   border-bottom: 1px solid rgb(221, 221, 221);
+}
+
+h6 {
+  font-weight: bold;
 }
 
 #chatDisplay {
@@ -139,11 +151,33 @@ padding: 0;
   text-align: center;
 }
 
+.centeredOnPage {
+  margin: 0 10%;
+}
 
-@media screen and (max-width: 911px) {
+th{
+  font-weight: 900;
+}
+
+.tutorialImage {
+  border: solid 1px #24a599;
+  border-radius: 13px;
+}
+
+@media screen and (max-width: 920px) {
   .logo {
-      font-size: 30px;
+      font-size: 29px;
       content: center;
   }
 }
+
+@media screen and (max-width: 700px) {
+  .links {
+    line-height: 30px;
+  }
+  #nav-mobile {
+    margin-right: 50px;
+  }
+}
+
 

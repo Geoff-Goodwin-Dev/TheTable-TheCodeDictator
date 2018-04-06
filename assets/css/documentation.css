@@ -13,6 +13,10 @@ main {
   font-size: 50px;
 }
 
+a:hover {
+  text-decoration: none;
+}
+
 #dictatorImg {
   height: 85px;
   margin: 0 5px;
