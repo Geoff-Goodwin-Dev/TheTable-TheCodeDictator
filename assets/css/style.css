@@ -28,6 +28,10 @@ h5 {
   border-bottom: 1px solid rgb(221, 221, 221);
 }
 
+h6 {
+  font-weight: bold;
+}
+
 #chatDisplay {
   height: 353px;
   width: 100%;
@@ -139,6 +143,18 @@ padding: 0;
   text-align: center;
 }
 
+.centeredOnPage {
+  margin: 0 10%;
+}
+
+th{
+  font-weight: 900;
+}
+
+.tutorialImage {
+  border: solid 1px #24a599;
+  border-radius: 13px;
+}
 
 @media screen and (max-width: 911px) {
   .logo {
@@ -146,4 +162,5 @@ padding: 0;
       content: center;
   }
 }
+
 
