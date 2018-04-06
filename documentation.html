@@ -61,14 +61,16 @@
 <body>
 
   <nav class="nav-extended blue darken-1">
-    <div class="nav-wrapper">
-      <a href="https://geoff-goodwin-dev.github.io/TheTable-TheCodeDictator/" class="logo"><img src="assets/images/theDictator.png" id="dictatorImg">The Code Dictator</a>
+    <div class="nav-wrapper" id="navBar">
+      <a href="https://geoff-goodwin-dev.github.io/TheTable-TheCodeDictator/" class="logo">
+        <img src="assets/images/theDictator.png" id="dictatorImg"> The Code Dictator
+      </a>
       <ul id="nav-mobile" class="right">
         <li>
-          <a href="index.html">Get Coding!</a>
+          <a class="links" href="index.html">Get Coding!</a>
         </li>
         <li>
-          <a href="documentation.html">Command Documentation</a>
+          <a class="links" href="documentation.html">Command Documentation</a>
         </li>
       </ul>
     </div>
@@ -81,11 +83,21 @@
 
     <div class="mainBody">
 
-      <br><h6>Welcome to The Code Dictator!</h6><br>
+      <br>
+      <h6>Welcome to The Code Dictator!</h6>
+      <br>
 
-      <p>The Code Dictator (brought to you by The Table) is a powerful speech-to-code web application that makes creating your HTML pages a breeze by simply using your voice. The Code Dictator uses Mozilla's <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API">Web Speech API</a> to recognize a user's voice and create HTML elements that are requested. Using <a href="https://azure.microsoft.com/en-us/services/cognitive-services/spell-check/">Bing Spell Check API</a>, we also verify that your spelling is correct to minimize any problems with the Dictator understanding your speech. After creating your elements and dragging them to your element tree, we have also integrated with the <a href="https://validator.w3.org/docs/">W3C Markup Validation Service</a> to make sure your HTML is syntactically sound.</p><br>
+      <p>The Code Dictator (brought to you by The Table) is a powerful speech-to-code web application that makes creating your
+        HTML pages a breeze by simply using your voice. The Code Dictator uses Mozilla's
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API">Web Speech API</a> to recognize a user's voice and create HTML elements that are requested. Using
+        <a href="https://azure.microsoft.com/en-us/services/cognitive-services/spell-check/">Bing Spell Check API</a>, we also verify that your spelling is correct to minimize any problems with the Dictator
+        understanding your speech. After creating your elements and dragging them to your element tree, we have also integrated
+        with the
+        <a href="https://validator.w3.org/docs/">W3C Markup Validation Service</a> to make sure your HTML is syntactically sound.</p>
+      <br>
 
-      <h6>Learn how to use The Code Dictator</h6><br>
+      <h6>Learn how to use The Code Dictator</h6>
+      <br>
 
       <h6>Step 1</h6>
       <p>Click the mic button to speak or simply type directly into the chat window.</p>
@@ -107,24 +119,25 @@
       <p>After all issues are fixed, copy and paste your code into your HTML file, or simply e-mail it!</p>
       <img class="tutorialImage" src="assets/images/emailCode.PNG" height="15%" width="15%">
 
-      <br><br><br><h6>Use the table below to learn how to speak to the Dictator</h6>
+      <br>
+      <br>
+      <br>
+      <h6>Use the table below to learn how to speak to the Dictator</h6>
 
     </div>
 
     <table class="table-striped">
-        <thead>
-          <tr>
-              <th>Element Tag</th>
-              <th>Triggered By</th>
-          </tr>
-        </thead>
+      <thead>
+        <tr>
+          <th>Element Tag</th>
+          <th>Triggered By</th>
+        </tr>
+      </thead>
 
-        <tbody id="tableBody">
-         
-        </tbody>
-      </table>
+      <tbody id="tableBody">
 
-
+      </tbody>
+    </table>
 
   </main>
 
