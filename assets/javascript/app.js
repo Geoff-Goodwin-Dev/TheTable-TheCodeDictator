@@ -379,13 +379,18 @@ function sendEmail(){
   let respond = emailjs.send(service_id,template_id,template_params);
   console.log(respond);
   console.log(template_params.subject);
-  console.log(elementTreeData);
+  console.log(emailBody);
 }
 
 emailSendButton.on('click', function(){
-  sendEmail();
-  $('#email').val('');
-  $('#emailSubject').val('');
+  if ($('#email').hasClass('validate valid')){
+    sendEmail();
+    $('#email').val('');
+    $('#emailSubject').val('');
+  } else {
+    // Do nothing
+  }
+
 });
 
   function getElementTreeText () {
