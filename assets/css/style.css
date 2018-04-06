@@ -171,7 +171,7 @@ th{
 @media screen and (max-width: 920px) {
   .logo {
       font-size: 29px;
-      content: center;
+      text-align: center;
   }
 }
 
