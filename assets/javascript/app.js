@@ -479,6 +479,9 @@ emailSendButton.on('click', function(){
     event.preventDefault();
     $('#list').text("");
     codeValidator();
+    if (validatorWindowExpanded === false) {
+      $('.validationContent').slideToggle('400');
+    }
   });
 
 
