@@ -1,0 +1,43 @@
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+main {
+  flex: 1 0 auto;
+  margin: 0 10%;
+}
+
+ .logo {
+  font-size: 50px;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+#dictatorImg {
+  height: 85px;
+  margin: 0 5px;
+}
+
+h5{
+  border-bottom: 1px solid rgb(221, 221, 221);
+}
+
+th{
+  font-weight: 900;
+}
+
+.container {
+  text-align: center;
+}
+
+@media screen and (max-width: 911px) {
+  .logo {
+      font-size: 30px;
+      content: center;
+  }
+}
+

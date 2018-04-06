@@ -20,6 +20,14 @@ body {
   font-family: 'Cinzel', serif;
 }
 
+a:hover {
+  text-decoration: none;
+}
+
+.links {
+  line-height: 90px
+}
+
 main {
   flex: 1 0 auto;
 }
@@ -156,10 +164,19 @@ th{
   border-radius: 13px;
 }
 
-@media screen and (max-width: 911px) {
+@media screen and (max-width: 920px) {
   .logo {
-      font-size: 30px;
+      font-size: 29px;
       content: center;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .links {
+    line-height: 30px;
+  }
+  #nav-mobile {
+    margin-right: 50px;
   }
 }
 
