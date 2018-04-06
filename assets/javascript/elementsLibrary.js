@@ -4,7 +4,7 @@ const elementsObjectsArray = [
     name: 'div',
     openTag: '<div',
     closingTag: '</div>',
-    aliases: ['division', 'divider', 'div']
+    aliases: ['division', 'divider', 'div', 'dvision']
   },
   {
     position: 1,
