@@ -398,7 +398,7 @@ emailSendButton.on('click', function(){
             let lineNumber = response.messages[i].lastLine; // line number issue is on
             let extract = response.messages[i].extract; // piece of code containing issue
             let type = response.messages[i].type; // these are for errors
-            lineNumberSpan.text('Line Number: ');
+            lineNumberSpan.text('Line: ');
             extractSpan.text('Code: ');
             extractSpanText.text(extract);
             issueTypeSpan.css('font-weight', 'bold');
