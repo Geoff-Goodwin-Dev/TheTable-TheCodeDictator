@@ -164,6 +164,14 @@ $(document).ready(function(){
     event.preventDefault();
     chatSubmitHandler();
   });
+
+  // click to select rendered tag from element generation window
+  elementGeneration.on('click','.renderedTag', function (event) {
+    if (event.shiftKey) {
+      let clickedElement = this.id;
+      selectText(clickedElement);
+    }
+  });
   // ============= END OF: Utility Event Handlers ============= \\
 
   // ============= Spelling Validation Code ============= \\

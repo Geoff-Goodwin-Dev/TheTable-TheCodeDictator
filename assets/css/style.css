@@ -101,7 +101,7 @@ h6 {
 }
 
 .renderedTag {
-  cursor: move;
+  cursor: default;
 }
 
 #elementTree {
