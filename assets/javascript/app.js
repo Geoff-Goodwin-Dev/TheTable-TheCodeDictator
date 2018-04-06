@@ -1,3 +1,5 @@
+let validatorWindowExpanded = false;
+
 $(document).ready(function(){
   console.log('Initiated!');
 
@@ -15,7 +17,6 @@ $(document).ready(function(){
   let transcriptDisplay = $('#interimTextDisplayLabel');
   let emailSendButton = $('#emailSend');
   let micIcon = $('#microphoneIcon');
-  let validatorWindowExpanded = false;
 
   let sentenceArray = [];
   let ofEqualsArray = ['of', 'equals', 'is'];
@@ -487,6 +488,10 @@ emailSendButton.on('click', function(){
     event.preventDefault();
     $('#list').text("");
     codeValidator();
+    if (validatorWindowExpanded === false) {
+      $('.validationContent').slideToggle('400');
+      validatorWindowExpanded = true;
+    }
   });
 
 
