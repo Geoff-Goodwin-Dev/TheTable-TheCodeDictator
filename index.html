@@ -105,14 +105,30 @@
 
       </div>
 
-      <div class="col s12 m12 l4">
-        <h5>Element Generation</h5>
-        <div class="col s12">
-          <div id="elementGeneration" contenteditable="true"></div>
+      <div class="col s12 m12 l6">
+        <div class="col s12 m12 l6">
+          <h5>Element Generation</h5>
+          <div class="col s12">
+            <div id="elementGeneration" contenteditable="true"></div>
+          </div>
+
+
+
+        </div>
+
+        <div id="emailDiv" class="col s12 m12 l6">
+
+          <h5>Email Your Code</h5>
+          <div class="col s12">
+            <input id="email" type="email" class="validate" placeholder="Email">
+            <input id="emailSubject" type="text" class="validate" placeholder="Email-Subject">
+          </div>
+          <button id="emailSend" class="btn waves-effect waves-light" type="submit" name="action">Send</button>
         </div>
       </div>
 
-      <div class="col s12 m12 l4">
+
+      <div class="col s12 m12 l6">
         <h5>Element Tree</h5>
         <div class="col s12">
           <div id="elementTree"></div>
@@ -136,27 +152,7 @@
         <button id="validateCode" class="btn waves-effect waves-light" type="submit" name="action">VALIDATE CODE</button>
       </div>
 
-      <div id="emailDiv" class="col s12 m6 l2">
 
-        <h5>Email Your Code</h5>
-
-        <div class="row s12 m12">
-          <div class="input-field col s12">
-            <input id="email" type="email" class="validate" placeholder="Email">
-            <label for="email" data-error="wrong" data-success="right"></label>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="input-field col s12">
-            <input id="emailSubject" type="text" class="validate" placeholder="Email-Subject">
-            <label for="emailSubject" data-error="wrong" data-success="right"></label>
-          </div>
-        </div>
-
-        <button id="emailSend" class="btn waves-effect waves-light" type="submit" name="action">Send</button>
-        <script type="text/javascript"> document.addEventListener('click', function(e) { if(document.activeElement.toString() == '[object HTMLButtonElement]'){ document.activeElement.blur(); } }); </script>
-      </div>
     </div>
   </main>
 
