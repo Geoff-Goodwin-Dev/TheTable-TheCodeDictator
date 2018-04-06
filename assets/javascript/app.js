@@ -494,6 +494,7 @@ emailSendButton.on('click', function(){
     $('#list').text("");
     codeValidator();
     if (validatorWindowExpanded === false) {
+      $("#viewClose").text("close");
       $('.validationContent').slideToggle('400');
       validatorWindowExpanded = true;
     }
