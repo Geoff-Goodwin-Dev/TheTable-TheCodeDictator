@@ -168,8 +168,8 @@ $(document).ready(function(){
   // click to select rendered tag from element generation window
   elementGeneration.on('click','.renderedTag', function (event) {
     if (event.shiftKey) {
-      let clickedElelement = this.id;
-      selectText(clickedElelement);
+      let clickedElement = this.id;
+      selectText(clickedElement);
     }
   });
   // ============= END OF: Utility Event Handlers ============= \\
