@@ -29,7 +29,7 @@ h5 {
 }
 
 #chatDisplay {
-  height: 353px;
+  height: 330px;
   width: 100%;
   background: rgb(255, 255, 255);
   overflow-y: scroll;
