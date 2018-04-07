@@ -107,7 +107,7 @@ const elementsObjectsArray = [
   {
     position: 15,
     name: 'img',
-    openTag: '<img',
+    openTag: '<img src=""',
     closingTag: '</img>',
     aliases: ['image', 'picture']
   }
