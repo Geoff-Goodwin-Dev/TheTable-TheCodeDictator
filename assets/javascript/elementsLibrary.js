@@ -74,7 +74,7 @@ const elementsObjectsArray = [
     name: 'tr',
     openTag: '<tr',
     closingTag: '</tr>',
-    aliases: ['table row', 'tablerow']
+    aliases: ['table row', 'tablerow', 'row', 'tr']
   },
   {
     position: 11,

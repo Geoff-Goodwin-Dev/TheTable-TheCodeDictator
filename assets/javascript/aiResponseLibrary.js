@@ -4,5 +4,6 @@ const computerMessages = {
   noElementsFound: 'I could not find any matching elements in your statement',
   tooManyElementsFound: 'I can only create one element at a time.  Which element do you want to create first?',
   creatingElement: 'If I understand correctly, you are looking for an element tag creation.  Coming right up!',
-  meaningOfLife: 'It\'s 42, obviously!  Or at least that\'s what Doug would have us believe...'
+  meaningOfLife: 'It\'s 42, obviously!  Or at least that\'s what Doug would have us believe...',
+  whatIsLove: '...baby, don\'t hurt me. Don\'t hurt me no more...'
 };
