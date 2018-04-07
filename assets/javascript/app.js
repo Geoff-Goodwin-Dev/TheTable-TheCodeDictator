@@ -201,16 +201,46 @@ $(document).ready(function(){
         // console.log('I believe you meant... ', sentenceArray.join(' '));
         let message = computerMessages.spellingCorrected + sentenceArray.join(' ') + '"';
         createChatLineItem('The Dictator', message);
-        checkSubmittedTextForElementPostSpellCheck();
+        knownCommandsCheck();
         recognition = '';
       } else {
         console.log('Spelling validation passed!');
-        checkSubmittedTextForElementPostSpellCheck();
+        knownCommandsCheck();
         recognition = '';
       }
     });
   }
   // ============= END OF: Spelling Validation Code ============= \\
+
+  // Checks submitted text against a list of known functional commands not specificlly related to element creation
+  function knownCommandsCheck () {
+    let submittedChatPostSpellCheck = sentenceArray.join(' ');
+    console.log('sentence post spell check:', submittedChatPostSpellCheck);
+    // removes special characters
+    let submittedChatPostSpellCheckSpecialCharsRemoved = submittedChatPostSpellCheck.replace(/[.,\/#!?$%\^&\*;:{}=\-_`~()]/g,"");
+    console.log('sentence post spell check and special chars removed:', submittedChatPostSpellCheckSpecialCharsRemoved);
+    // removes extra spaces from between words
+    let sanitizedSentenceExtraSpacesRemoved = submittedChatPostSpellCheckSpecialCharsRemoved.replace(/\s{2,}/g," ");
+    console.log('sentence post spell check and special chars and extra spaces removed:', sanitizedSentenceExtraSpacesRemoved);
+    let result = checkSanitizedSentenceAgainstKnownCommands(sanitizedSentenceExtraSpacesRemoved);
+    // how the system handles if there are no known commands found
+    if (result === 0) {
+      checkSubmittedTextForElementPostSpellCheck();
+    }
+    //handler for if a known command is found
+    else {
+      console.log('returned result', result);
+      switch (result) {
+        case 'meaning of life':
+          createChatLineItem('The Dictator', computerMessages.meaningOfLife);
+          break;
+
+        default:
+          console.log('no behavior found for', result);
+      }
+    }
+  }
+
 
   // Checks to see if the spell-check corrected statement contains an HTML element
   function checkSubmittedTextForElementPostSpellCheck() {
