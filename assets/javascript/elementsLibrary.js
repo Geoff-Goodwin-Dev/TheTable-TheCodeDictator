@@ -25,7 +25,7 @@ const elementsObjectsArray = [
     name: 'h2',
     openTag: '<h2',
     closingTag: '</h2>',
-    aliases: ['heading2', 'heading 2', 'headingtwo', 'heading two', 'h2', 'H2', 'header2', 'header 2', 'headertwo', 'header two']
+    aliases: ['heading2', 'heading 2', 'headingtwo', 'heading two', 'h2', 'H2', 'header2', 'header 2', 'headertwo', 'header two', 'heading to']
   },
   {
     position: 4,
