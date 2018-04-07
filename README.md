@@ -2,11 +2,13 @@
 
 * **Created:** Tuesday, March 27th, 2018
 
-* **Context:** TBD
+Welcome to The Code Dictator!
 
-```
-TBD
-```
+The Code Dictator (brought to you by The Table) is a powerful speech-to-code web application that makes creating your HTML pages a breeze by simply using your voice. The Code Dictator uses Mozilla's [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API) to recognize a user's voice and create HTML elements that are requested. Using [Bing Spell Check API](https://azure.microsoft.com/en-us/services/cognitive-services/spell-check/), we also verify that your spelling is correct to minimize any problems with the Dictator understanding your speech. After creating your elements and dragging them to your element tree, we have also integrated with the [W3C Markup Validation Service](https://validator.w3.org/) to make sure your HTML is syntactically sound.
+
+Note: The Code Dictator currently only works on Google Chrome.
+
+![TheCodeDictator](assets/images/code/theDictator.png)
 
 ## Getting Started
 
@@ -85,11 +87,6 @@ Not Applicable: This is a static website for educational purposes and therefore 
 * **Thomas Yeager** - *Initial work* - [gamejock1](https://github.com/gamejock1)
 * **Alex Gonzalez** - *Initial work* - [agonz519](https://github.com/agonz519)
 * **Geoff Goodwin** - *Initial work* - [Geoff-Goodwin-Dev](https://github.com/Geoff-Goodwin-Dev)
-
-
-## License
-
-details TBD
 
 ## Acknowledgments
 
