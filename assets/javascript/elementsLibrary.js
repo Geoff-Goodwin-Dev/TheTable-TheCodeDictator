@@ -58,7 +58,7 @@ const elementsObjectsArray = [
   {
     position: 8,
     name: 'a',
-    openTag: '<a',
+    openTag: '<a href=""',
     closingTag: '</a>',
     aliases: ['anchor', 'link']
   },

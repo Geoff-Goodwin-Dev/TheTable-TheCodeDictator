@@ -1,4 +1,7 @@
 let validatorWindowExpanded = false;
+let submittedChat;
+let multiWord;
+let elementObjectIndex;
 
 $(document).ready(function(){
   console.log('Initiated!');
@@ -26,8 +29,7 @@ $(document).ready(function(){
   let elementCreatedCounter = 1;
   let idText;
   let classText;
-  let submittedChat;
-  let elementObjectIndex;
+  // let submittedChat;
   let elementTreeData = ""; //must be initialized as empty string or else validator logic breaks
   let final;
   let interim;
@@ -245,7 +247,7 @@ $(document).ready(function(){
   // Checks to see if the spell-check corrected statement contains an HTML element
   function checkSubmittedTextForElementPostSpellCheck() {
 
-    let result = checkSubmittedTextForElement();
+    let result = checkSubmittedTextForMultiWords();
     elementMatchCount = 0; // resets element match count for future checks
 
     if (result === 'No matching elements found') {
@@ -297,6 +299,42 @@ $(document).ready(function(){
       selection.addRange(range);
     }
   }
+
+  // ============= Presence of Multi-word Aliases Validation Code ============= \\
+  function checkSubmittedTextForMultiWords() {
+    // First get all known aliases that are multiple words and put them into a single array we can work with
+    let allMultiWordAliases = [];
+    elementsObjectsArray.forEach(function(element) {
+      for (let i = 0; i < element.aliases.length; i++){
+        if (element.aliases[i].includes(' ')) {
+          allMultiWordAliases.push(element.aliases[i]);
+        }
+      }
+    });
+    console.log(allMultiWordAliases);
+    elementObjectIndex = undefined;
+    // Now that we have the array, time to compare them with the submitted text
+    allMultiWordAliases.forEach(function(alias){
+      if (submittedChat.indexOf(alias) >= 0) {
+        multiWord = alias;
+        console.log("I found " + multiWord);
+        elementsObjectsArray.forEach(function(element) {
+          for (let i = 0; i < element.aliases.length; i++) {
+            if (element.aliases[i].includes(multiWord)) {
+              elementObjectIndex = element.position;
+            }
+          }
+        });
+      } else {
+        if (elementObjectIndex === undefined) {
+          elementObjectIndex = checkSubmittedTextForElement();
+        }
+      }
+    });
+    return elementObjectIndex;
+  }
+
+
 
   // ============= Presence of HTML Element Validation Code ============= \\
   function checkSubmittedTextForElement() {
