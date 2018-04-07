@@ -224,6 +224,8 @@ $(document).ready(function(){
     // removes extra spaces from between words
     let sanitizedSentenceExtraSpacesRemoved = submittedChatPostSpellCheckSpecialCharsRemoved.replace(/\s{2,}/g," ");
     console.log('sentence post spell check and special chars and extra spaces removed:', sanitizedSentenceExtraSpacesRemoved);
+    // converts to lower case before sending to check for matches
+    sanitizedSentenceExtraSpacesRemoved = sanitizedSentenceExtraSpacesRemoved.toLowerCase();
     let result = checkSanitizedSentenceAgainstKnownCommands(sanitizedSentenceExtraSpacesRemoved);
     // how the system handles if there are no known commands found
     if (result === 0) {
