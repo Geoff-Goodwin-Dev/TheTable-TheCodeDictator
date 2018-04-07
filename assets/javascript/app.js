@@ -234,6 +234,12 @@ $(document).ready(function(){
         case 'meaning of life':
           createChatLineItem('The Dictator', computerMessages.meaningOfLife);
           break;
+        case 'what is love':
+          createChatLineItem('The Dictator', computerMessages.whatIsLove);
+          break;
+        case 'log element tree':
+          console.log(CodeMirror.value);
+          break;
 
         default:
           console.log('no behavior found for', result);
