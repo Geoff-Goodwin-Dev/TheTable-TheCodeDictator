@@ -8,7 +8,7 @@ The Code Dictator (brought to you by The Table) is a powerful speech-to-code web
 
 Note: The Code Dictator currently only works on Google Chrome.
 
-![TheCodeDictator](assets/images/code/theDictator.png)
+![TheCodeDictator](assets/images/theDictator.png)
 
 ## Getting Started
 
@@ -17,7 +17,7 @@ These instructions will get you a copy of the project up and running on your loc
 ```
 * This is a web page exercise.  As such, you're welcome to download a copy and run it locally for review purposes.  
 
-* Otherwise, you can view the output at: TBD
+* Otherwise, you can view the output at: https://github.com/Geoff-Goodwin-Dev/TheTable-TheCodeDictator
 ```
 
 ### Prerequisites
