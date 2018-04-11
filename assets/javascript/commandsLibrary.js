@@ -23,7 +23,6 @@ function checkSanitizedSentenceAgainstKnownCommands(command) {
       if (variation === command) {
         if (commandCount === 0) {
           commandCount++;
-          console.log('42');
           summary = commandItem.summary;
         }
       }
