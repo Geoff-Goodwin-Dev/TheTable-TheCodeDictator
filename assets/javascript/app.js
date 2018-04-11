@@ -99,6 +99,7 @@ $(document).ready(function(){
     }
   });
 
+
   // FUNCTION FOR EXPANDING CODE-CHECK VALIDATION RESULTS BAR
   $('#validatorInstructions').click(function() {
     $('.validationContent').slideToggle('400');
