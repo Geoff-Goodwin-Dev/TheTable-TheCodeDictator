@@ -21,11 +21,6 @@ let recognizing;
 
 console.log('Initiated! Assets loaded');
 
-function onPageLoadInitialize() {
-  createChatLineItem('The Dictator', computerMessages.welcomeMessage);
-  $('#chatTextArea').focus();
-}
-
 function splitIntoArray(string) {
   sentenceArray = string.split(' ');
   return sentenceArray;
@@ -33,6 +28,17 @@ function splitIntoArray(string) {
 
 function getTimestamp() {
   return moment().format('hh:mm:ss a');
+}
+
+function sanitizeSentence(rawSentence) {
+  // removes special characters
+  let submittedChatPostSpellCheckSpecialCharsRemoved = rawSentence.replace(/[.,\/#!?$%\^&\*;:{}=\-_`~()]/g,"");
+  console.log('sentence post spell check and special chars removed:', submittedChatPostSpellCheckSpecialCharsRemoved);
+  // removes extra spaces from between words
+  let sanitizedSentenceExtraSpacesRemoved = submittedChatPostSpellCheckSpecialCharsRemoved.replace(/\s{2,}/g," ");
+  console.log('sentence post spell check and special chars and extra spaces removed:', sanitizedSentenceExtraSpacesRemoved);
+  // converts to lower case before returning sanitized sentence to check for matches
+  return sanitizedSentenceExtraSpacesRemoved.toLowerCase()
 }
 
 function createChatLineItem(who, what) {
