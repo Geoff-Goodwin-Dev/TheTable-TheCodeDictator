@@ -1,12 +1,7 @@
-import { getElementTreeText } from 'app';
-
-let validateCode = $('#validateCode');
-
 // ============= W3C Validator Code ============= \\
 function codeValidator () {
-
-  let formData = new FormData();
   let data = getElementTreeText();
+  let formData = new FormData();
   console.log(data);
   formData.append('out', 'json');
   formData.append('content', elementTreeData);
@@ -27,7 +22,6 @@ function codeValidator () {
         console.log('OH OH! Errors found!!!');
         $('#validationText').html('<p>I found some issues with your code :(</p>');
         for (let i = 0; i < response.messages.length; i++) {
-          // if (response.messages[i].message === 'Non-space character in page trailer.') { continue; }
           let errorList = $('#list');
           let errorListItem = $('<li>');
           let issueTypeSpan = $('<span>');
@@ -66,27 +60,3 @@ function codeValidator () {
 }
 
 // ============= END OF: W3C Validator Code ============= \\
-
-// FUNCTION FOR EXPANDING CODE-CHECK VALIDATION RESULTS BAR
-$('#validatorInstructions').click(function() {
-  $('.validationContent').slideToggle('400');
-  if (validatorWindowExpanded === false) {
-    $("#viewClose").text("close");
-    validatorWindowExpanded = true;
-  }
-  else {
-    $("#viewClose").text("view");
-    validatorWindowExpanded = false;
-  }
-});
-
-validateCode.on('click', function() {
-  event.preventDefault();
-  $('#list').text("");
-  codeValidator();
-  if (validatorWindowExpanded === false) {
-    $("#viewClose").text("close");
-    $('.validationContent').slideToggle('400');
-    validatorWindowExpanded = true;
-  }
-});
