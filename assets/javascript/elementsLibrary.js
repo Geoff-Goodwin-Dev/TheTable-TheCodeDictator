@@ -88,7 +88,7 @@ const elementsObjectsArray = [
     name: 'td',
     openTag: '<td',
     closingTag: '</td>',
-    aliases: ['table data', 'tabledata']
+    aliases: ['table data', 'tabledata', 'td']
   },
   {
     position: 13,
@@ -108,7 +108,7 @@ const elementsObjectsArray = [
     position: 15,
     name: 'img',
     openTag: '<img src=""',
-    closingTag: '</img>',
+    closingTag: '',
     aliases: ['image', 'picture']
   }
 ];
