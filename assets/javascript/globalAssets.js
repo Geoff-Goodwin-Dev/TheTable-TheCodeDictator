@@ -138,7 +138,7 @@ ________________________________________________________________________________
 const getElementTreeText = () => {
   elementTreeData = '';
   $('.CodeMirror-line').map((i, line) => {
-    elementTreeData = elementTreeData + $(line).text() + '\n';
+    elementTreeData += $(line).text() + '\n';
   });
   return elementTreeData;
 };
