@@ -137,8 +137,8 @@ GET ELEMENT TREE TEXT:
 __________________________________________________________________________________________________________________*/
 const getElementTreeText = () => {
   elementTreeData = '';
-  $('.CodeMirror-line').each(() => {
-    elementTreeData += $(this).text() + '\n';
+  $('.CodeMirror-line').map((i, line) => {
+    elementTreeData += $(line).text() + '\n';
   });
   return elementTreeData;
 };
