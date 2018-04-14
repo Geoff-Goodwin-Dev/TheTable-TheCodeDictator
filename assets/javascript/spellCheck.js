@@ -1,5 +1,5 @@
 /*=================================================================================================================
-
+SPELL CHECK:
 * The purpose of this function is to take in a raw string and run a spell-check on it via the Bing Spell-Check API
 
 * Currently, this process is taking advantage of a static API key (future enhancements will seek to allow the user
@@ -15,9 +15,7 @@
 
 * Otherwise, the logic replaces any flagged tokens with their highest ranked replacement word and moves on to call
   the knownCommandsCheck function
-
-==================================================================================================================*/
-
+__________________________________________________________________________________________________________________*/
 const spellCheck = (rawChat) => {
   let chatArray = splitIntoArray(rawChat);
   let queryURL = 'https://api.cognitive.microsoft.com/bing/v7.0/spellcheck?text=' + rawChat;
@@ -42,3 +40,4 @@ const spellCheck = (rawChat) => {
     recognition = '';
   });
 };
+/*================================================================================================================*/
