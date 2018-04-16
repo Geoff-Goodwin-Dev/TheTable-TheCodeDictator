@@ -17,8 +17,8 @@ SPELL CHECK:
   the knownCommandsCheck function
 __________________________________________________________________________________________________________________*/
 const spellCheck = (rawChat) => {
-  let chatArray = splitIntoArray(rawChat);
-  let queryURL = 'https://api.cognitive.microsoft.com/bing/v7.0/spellcheck?text=' + rawChat;
+  let chatArray = splitIntoArray(rawChat)
+    , queryURL = 'https://api.cognitive.microsoft.com/bing/v7.0/spellcheck?text=' + rawChat;
   $.ajax({
     url: queryURL,
     method: "GET",

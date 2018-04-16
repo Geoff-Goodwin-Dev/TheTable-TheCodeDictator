@@ -5,6 +5,27 @@ body {
   min-width: 300px;
 }
 
+.bold {
+  font-weight: bold;
+}
+
+.normal {
+  font-weight: normal;
+}
+
+.codeValidateItem {
+  padding: 5px;
+  border-radius: 20px;
+}
+
+.codeValidateWarn {
+  background-color: #fecc7d;
+}
+
+.codeValidateError {
+  background-color: #FF908D;
+}
+
 .brand-logo {
   margin: 0 5%;
   /*font-family: 'Cinzel', serif;*/

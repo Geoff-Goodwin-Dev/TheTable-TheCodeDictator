@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -12,7 +11,7 @@
   <!--LINKING JQUERY-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-  <!--LINKING JAVASCRIPT FILE-->
+  <!--LINKING JAVASCRIPT FILES-->
   <script src="assets/javascript/globalAssets.js"></script>
   <script src="assets/javascript/elementsLibrary.js"></script>
   <script src="assets/javascript/aiResponseLibrary.js"></script>
@@ -44,11 +43,9 @@
 
   <!-- LINKING EMAIL LIBRARY -->
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  <script type="text/javascript">
-    (function () {
-      emailjs.init("user_nDJDRoWP67ytmP75yiD2X");
-    })();
-  </script>
+
+  <!-- INITIALIZING EMAIJS API -->
+  <script src="assets/javascript/emailJsInitialize.js"></script>
 
   <!--ALL REFERENCES FOR CREATING CODE EDITOR FOR ELEMENT TREE-->
   <script src="assets/lib/codemirror.js"></script>
@@ -155,7 +152,7 @@
                 Click the <span style="background-color: #24a599; color: white; border-radius: 5px; padding: 5px;">VALIDATE CODE</span> button below!
               </div>
               <div>
-                <ol id="list">
+                <ol id="codeValidationsList">
                   <!-- Validation Issues here -->
                 </ol>
               </div>
