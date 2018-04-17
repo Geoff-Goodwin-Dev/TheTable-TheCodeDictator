@@ -1,13 +1,17 @@
-// ============= W3C Validator Code ============= \\
-function codeValidator () {
-  let data = getElementTreeText();
-  let formData = new FormData();
-  console.log(data);
+/*=================================================================================================================
+CODE VALIDATOR:
+* The purpose of the below function is to select the code contents within the Code Mirror IDE and send an AJAX call
+  using the W3C Code Validator API to check the entered text
+
+* When the response is received back, it will then update the display of the issues to either reflect that no
+  issues were found or display the details of the issues that were found
+__________________________________________________________________________________________________________________*/
+const codeValidator = () => {
+  let data = getElementTreeText() //it may look like this variable is not being used, but it is.  Please Don't take it out :)
+    , queryURL = 'https://validator.w3.org/nu/'
+    , formData = new FormData();
   formData.append('out', 'json');
   formData.append('content', elementTreeData);
-
-  let queryURL = 'https://validator.w3.org/nu/';
-
   // Performing our AJAX GET request
   $.ajax({
     url: queryURL,
@@ -16,47 +20,38 @@ function codeValidator () {
     type: "POST",
     processData: false,
     contentType: false,
-    success: function (response) {
-      console.log(response);
-      if (response.messages.length > 0) {
-        console.log('OH OH! Errors found!!!');
+    success: (response) => {
+      // console.log(response); //left in for debugging
+      let issues = response.messages;
+      $('#codeValidationsList').empty();
+      if (issues.length > 0) {
+        // console.log('OH OH! Errors found!!!'); //left in for debugging
         $('#validationText').html('<p>I found some issues with your code :(</p>');
-        for (let i = 0; i < response.messages.length; i++) {
-          let errorList = $('#list');
-          let errorListItem = $('<li>');
-          let issueTypeSpan = $('<span>');
-          let lineNumberSpan = $('<span>').css('font-weight', 'bold');
-          let extractSpan = $('<span>').css('font-weight', 'bold');
-          let extractSpanText = $('<span>');
-          let subType = response.messages[i].subType; // these are for warnings
-          let lineNumber = response.messages[i].lastLine; // line number issue is on
-          let extract = response.messages[i].extract; // piece of code containing issue
-          let type = response.messages[i].type; // these are for errors
-          lineNumberSpan.text('Line: ');
-          extractSpan.text('Code: ');
-          extractSpanText.text(extract);
-          issueTypeSpan.css({'font-weight': 'bold', 'padding': '5px', 'border-radius': '20px'});
-          if (subType === 'warning') {
-            issueTypeSpan.css('background-color', '#fecc7d').text(subType);
+        issues.forEach((issue) => {
+          let issueText = $('<span class="normal">').text('  ' + issue.message)
+            , issueTypeSpan = $('<span class="bold codeValidateItem">')
+            , lineNumberText = $('<span class="normal">').text(issue.lastLine)
+            , lineNumberSpan = $('<span class="bold">').text('Line: ')
+            , extractText = $('<span class="normal">').text('"...' + issue.extract + '..."')
+            , extractSpan = $('<span class="bold">').text('Code: ');
+          if (issue.subType === 'warning') {
+            issueTypeSpan.addClass('codeValidateWarn').text('Warning');
           }
-          else if (type === 'error') {
-            issueTypeSpan.css('background-color', '#FF908D').text(type);
+          else if (issue.type === 'error') {
+            issueTypeSpan.addClass('codeValidateError').text('Error');
           }
-          errorListItem.text(response.messages[i].message)
-            .prepend(issueTypeSpan)
-            .append('<br>', lineNumberSpan, lineNumber, '<br>', extractSpan, extractSpanText);
-          errorList.append(errorListItem, '<br>');
-        }
+          let errorListItem = $('<li>').append(issueTypeSpan, issueText, '<br>', lineNumberSpan, lineNumberText, '<br>', extractSpan, extractText);
+          $('#codeValidationsList').append(errorListItem, '<br>');
+        });
       }
       else {
-        console.log('No Errors Found');
+        // console.log('No Errors Found'); //left in for debugging
         $('#validationText').text('No issues found, good job! :)');
       }
     },
-    error: function () {
+    error: () => {
       console.warn(arguments);
     }
   });
-}
-
-// ============= END OF: W3C Validator Code ============= \\
+};
+/*================================================================================================================*/

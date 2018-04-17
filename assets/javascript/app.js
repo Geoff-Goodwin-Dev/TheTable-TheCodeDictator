@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(() => {
   createChatLineItem('The Dictator', computerMessages.welcomeMessage);
   $('#chatTextArea').focus();
   console.log('Initiated!');
@@ -22,13 +22,13 @@ $(document).ready(function(){
   });
 
   // click handler to start or stop voice-to-text dictation
-  $('#dictationButton').on('click', function(){
+  $('#dictationButton').on('click', () => {
     $('#interimTextDisplayLabel').toggle();
     toggleStartStop();
   });
 
   // enter button handler when chat box is in focus
-  $('#chatTextArea').keypress(function(event) {
+  $('#chatTextArea').keypress((event) => {
     if (event.which === 13) {
       document.execCommand('insertHTML', false, '<div></div>');
       chatSubmitHandler();
@@ -37,13 +37,13 @@ $(document).ready(function(){
   });
 
   // submit button handler
-  $('#submitToChat').on('click', function() {
+  $('#submitToChat').on('click', () => {
     event.preventDefault();
     chatSubmitHandler();
   });
 
   // click to select rendered tag from element generation window
-  $('#elementGeneration').on('click','.renderedTag', function (event) {
+  $('#elementGeneration').on('click','.renderedTag', (event) => {
     if (event.shiftKey) {
       let clickedElement = this.id;
       selectText(clickedElement);
@@ -51,7 +51,7 @@ $(document).ready(function(){
   });
 
   // FUNCTION FOR EXPANDING CODE-CHECK VALIDATION RESULTS BAR
-  $('#validatorInstructions').click(function() {
+  $('#validatorInstructions').click(() => {
     $('.validationContent').slideToggle('400');
     if (validatorWindowExpanded === false) {
       $("#viewClose").text("close");
@@ -63,7 +63,7 @@ $(document).ready(function(){
     }
   });
 
-  $('#validateCode').on('click', function() {
+  $('#validateCode').on('click', () => {
     event.preventDefault();
     $('#list').text("");
     codeValidator();
@@ -74,13 +74,11 @@ $(document).ready(function(){
     }
   });
 
-  $('#emailSend').on('click', function(){
-    if ($('#email').hasClass('validate valid')){
+  $('#emailSend').on('click', () => {
+    if ($('#email').hasClass('validate valid')) {
       sendEmail();
       $('#email').val('');
       $('#emailSubject').val('');
-    } else {
-      // Do nothing
     }
   });
 });

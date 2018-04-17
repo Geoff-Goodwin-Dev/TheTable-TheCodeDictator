@@ -11,22 +11,22 @@ var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEv
 /*================================================================================================================*/
 
 //GLOBAL VARIABLE DECLARATIONS:
-let validatorWindowExpanded = false;
-let multiWord;
-let elementObjectIndex;
-let sentenceArray = [];
-let ofEqualsArray = ['of', 'equals', 'is'];
-let versionsOfId = ['id', 'ID', 'Id', 'I.D.', 'i.d.', 'identifier'];
-let versionsOfClass =  ['class', 'Class'];
-let elementMatchCount = 0;
-let elementCreatedCounter = 1;
-let idText;
-let classText;
-let submittedChat;
-let elementTreeData = ""; //must be initialized as empty string or else validator logic breaks
-let final;
-let interim;
-let recognizing;
+let validatorWindowExpanded = false
+  , multiWord
+  , elementObjectIndex
+  , sentenceArray = []
+  , elementMatchCount = 0
+  , elementCreatedCounter = 1
+  , idText
+  , classText
+  , submittedChat
+  , elementTreeData = "" //must be initialized as empty string or else validator logic breaks
+  , final
+  , interim
+  , recognizing;
+const ofEqualsArray = ['of', 'equals', 'is'];
+const versionsOfId = ['id', 'ID', 'Id', 'I.D.', 'i.d.', 'identifier'];
+const versionsOfClass =  ['class', 'Class'];
 
 /*=================================================================================================================
 SPLIT INTO ARRAY:
@@ -74,24 +74,29 @@ CREATE CHAT LINE ITEM:
 * Based on who is submitting the chat as indicated in the arguments, classes are added to control color-coding
   through CSS
 
-* Lastly, the rendered chat item will cause the window to scroll to bottom with jQuery animation
+* Lastly, the rendered chat item will cause the window to scroll to bottom via the animateScrollBottom function
 __________________________________________________________________________________________________________________*/
 const createChatLineItem = (who, what) => {
-  let chatDisplay = $('#chatDisplay');
-  let itemWho = $('<span>');
-  if (who === 'You') {
-    itemWho.addClass('userChat');
-  }
-  else {
-    itemWho.addClass('computerChat');
-  }
-  itemWho.text(who);
-  let itemWhen = $('<span>');
+  let chatDisplay = $('#chatDisplay')
+    , itemWho = $('<span>')
+    , itemWhen = $('<span>');
+  itemWho.addClass((who === 'You' ? 'userChat' : 'computerChat')).text(who);
   itemWhen.addClass('timestamp').text(' (' + getTimestamp() + '): ');
-  chatDisplay.append(itemWho, itemWhen, what, '<br>')
-    .animate({
-      scrollTop: chatDisplay[0].scrollHeight - chatDisplay[0].clientHeight
-    }, 300);
+  chatDisplay.append(itemWho, itemWhen, what, '<br>');
+  animateScrollBottom(chatDisplay);
+};
+/*================================================================================================================*/
+
+
+/*=================================================================================================================
+ANIMATE SCROLL BOTTOM:
+* The purpose of the below function is to take an indication of target window / page element selector and animate
+  scrolling to the bottom of that target location
+__________________________________________________________________________________________________________________*/
+const animateScrollBottom = (target) => {
+  target.animate({
+    scrollTop: target[0].scrollHeight - target[0].clientHeight
+  }, 300);
 };
 /*================================================================================================================*/
 
@@ -112,7 +117,6 @@ CHAT SUBMIT HANDLER:
   function dependent on the "perform spell check" checkbox status
 __________________________________________________________________________________________________________________*/
 const chatSubmitHandler = () => {
-  recognition = '';
   let chatTextArea = $('#chatTextArea');
   submittedChat = chatTextArea.text().trim();
   chatTextArea.empty();
@@ -144,14 +148,17 @@ const getElementTreeText = () => {
 };
 /*================================================================================================================*/
 
+
 /*=================================================================================================================
 SELECT ELEMENT:
 * The purpose of the below function is to select the text contents of a particular element based on the supplied
   element ID argument
 __________________________________________________________________________________________________________________*/
 const selectText = (element) => {
-  let doc = document, text = doc.getElementById(element), range, selection;
-  if (doc.body.createTextRange) {
+  let text = document.getElementById(element)
+    , range
+    , selection;
+  if (document.body.createTextRange) {
     range = document.body.createTextRange();
     range.moveToElementText(text);
     range.select();
